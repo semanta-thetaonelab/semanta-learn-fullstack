@@ -16,7 +16,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body>
+        <div className="bg-white w-full h-[100vh] relative overflow-hidden">
+           <nav className="relative inline-block w-[200px] h-[100%] bg-red-400"></nav>
+           <main className="absolute inline-block w-[calc(100%-200px)] h-[100%] bg-red-200">{children}</main> 
+        </div>
+      </body>
     </html>
   );
 }
