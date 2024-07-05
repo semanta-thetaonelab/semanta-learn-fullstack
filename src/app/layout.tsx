@@ -35,23 +35,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="bg-white w-full h-[100vh] relative overflow-hidden">
-           <nav className="relative inline-block w-[200px] h-[100%] bg-red-400 px-3">
-            <div className="w-full text-center text-2xl font-bold text-white mt-3">
-                 Magical Component
-            </div>
-            <div className="w-full my-3 flex justify-center">
-              <div className="under-line h-[5px] bg-white w-full"></div>
-            </div>
-              {navList.map((item:any)=>(
-                <>
-                   <div className="p-[10px_0px] w-full mb-3 bg-red-200 flex justify-center items-center cursor-pointer" style={{borderRadius:'10px'}}>
-                      {item?.title || ''}
-                   </div>
-                </>
-              ))}
-           </nav>
-           <main className="absolute inline-block w-[calc(100%-200px)] h-[100%] bg-red-200">{children}</main> 
+        <div className="bg-slate-400 w-full h-[100vh] relative overflow-hidden">
+           <main className="w-full h-full">{children}</main> 
         </div>
       </body>
     </html>

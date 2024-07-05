@@ -2,39 +2,42 @@
 import Image from "next/image";
 import React from "react";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home(card: JSX.Element) {
-const [cards,setCards]=useState<JSX.Element[]>([]); 
-
-useEffect(()=>{
-  enterCard()
-},[1])
-const enterCard = () => {
-  const card = (
-    <div className="w-[350px] h-[250px] bg-white m-5" style={{borderRadius:'12px'}} key={Math.random()}></div>
-  );
-  for (let i = 0; i < 3; i++) {
-    setTimeout(() => {
-      setCards((prev:any) => [...prev, card]);
-    }, 100 * i);
-  }
-};
+const [sl,setSl]=useState (true) 
+const router=useRouter();
+// useEffect(()=>{
+//   setTimeout(()=>{
+//     router.push('/auth-stack')
+//   },3000)
+// })
   return (
-    <div className="h-full w-[100%] relative flex justify-center items-start">
-       {/* <pre>
-       '.vdas:{
-       }'
-       &lt;div&gt;&lt;/div&gt;
-       </pre> */}
-       
-       <div className="absolute w-[50px] h-[50px] sm:w-[150px] sm:h-[150px] lg:w-[350px] lg:h-[350px]  bg-lime-300 green-ball" style={{borderRadius:'50%'}}></div>
-       <div className="absolute w-[50px] h-[50px] sm:w-[150px] sm:h-[150px] lg:w-[350px] lg:h-[350px]  bg-orange-400 orange-ball" style={{borderRadius:'50%'}}></div>
-       <div className="back-blur"></div>
-       <div className="w-[99%] h-[97%] relative m-3 p-2 overflow-auto flex justify-evenly items-center flex-wrap" style={{backgroundColor:'rgba(255, 255, 255, 0.386)',borderRadius:'12px'}}>
-       {cards.map((item, index) => (
-          <React.Fragment key={index}>{item}</React.Fragment>
-        ))}
-       </div>
+    <div className="h-full w-[100%] relative flex justify-center items-center">
+      {sl?(        <div className="w-[310px] h-[310px] bg-white flex flex-col justify-center items-center p-3">
+           <b className="text-[20px] mb-3">Log in</b>
+           <p className=" w-[90%] text-left mb-2">Email</p>
+           <input type="email" className="w-[90%] bg-slate-400 px-3 py-1 mb-2"></input>
+           <p className=" w-[90%] text-left mb-2">Password</p>
+           <input type="password" className="w-[90%] bg-slate-400 px-3 py-1 mb-3"></input>
+           <button className="w-[90%] py-3 text-white font-bold bg-cyan-800">Log in</button>
+           <p className="w-[90%] text-center mb-2">don't have account? <span className="w-[90%] text-left mb-2 text-cyan-700 cursor-pointer"
+             onClick={()=>setSl(false)}
+           >sign up</span></p>
+        </div>):(        
+          
+          <div className="w-[310px] h-[310px] bg-white flex flex-col justify-center items-center p-3">
+           <b className="text-[20px] mb-3">Sign up</b>
+           <p className=" w-[90%] text-left mb-2">Email</p>
+           <input type="email" className="w-[90%] bg-slate-400 px-3 py-1 mb-2"></input>
+           <p className=" w-[90%] text-left mb-2">Set Passowrd</p>
+           <input type="password" className="w-[90%] bg-slate-400 px-3 py-1 mb-3"></input>
+           <button className="w-[90%] py-3 text-white font-bold bg-cyan-800">Sign up</button>
+           <p className="w-[90%] text-center mb-2">already have account? <span className="w-[90%] text-left mb-2 text-cyan-700 cursor-pointer"
+             onClick={()=>setSl(true)}
+           >let's log in</span></p>
+        </div>)}
+
     </div> 
   );
 }
