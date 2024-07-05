@@ -11,6 +11,9 @@ const router=useRouter();
 //     router.push('/auth-stack')
 //   },3000)
 // })
+const pageroute=()=>{
+  router.push('/auth-stack')
+}
   return (
     <div className="h-full w-[100%] relative flex justify-center items-center">
       {sl?(        <div className="w-[310px] h-[310px] bg-white flex flex-col justify-center items-center p-3">
@@ -19,7 +22,9 @@ const router=useRouter();
            <input type="email" className="w-[90%] bg-slate-400 px-3 py-1 mb-2"></input>
            <p className=" w-[90%] text-left mb-2">Password</p>
            <input type="password" className="w-[90%] bg-slate-400 px-3 py-1 mb-3"></input>
-           <button className="w-[90%] py-3 text-white font-bold bg-cyan-800 cursor-pointer">Log in</button>
+           <button className="w-[90%] py-3 text-white font-bold bg-cyan-800 cursor-pointer"
+            onClick={()=>pageroute()}
+           >Log in</button>
            <p className="w-[90%] text-center mb-2">don't have account? <span className="w-[90%] text-left mb-2 text-cyan-700 cursor-pointer"
              onClick={()=>setSl(false)}
            >sign up</span></p>
@@ -31,7 +36,7 @@ const router=useRouter();
            <input type="email" className="w-[90%] bg-slate-400 px-3 py-1 mb-2"></input>
            <p className=" w-[90%] text-left mb-2">Set Passowrd</p>
            <input type="password" className="w-[90%] bg-slate-400 px-3 py-1 mb-3"></input>
-           <button className="w-[90%] py-3 text-white font-bold bg-cyan-800 cursor-pointer">Sign up</button>
+           <button className="w-[90%] py-3 text-white font-bold bg-cyan-800 cursor-pointer" onClick={()=>pageroute()}>Sign up</button>
            <p className="w-[90%] text-center mb-2">already have account? <span className="w-[90%] text-left mb-2 text-cyan-700 cursor-pointer"
              onClick={()=>setSl(true)}
            >let's log in</span></p>
