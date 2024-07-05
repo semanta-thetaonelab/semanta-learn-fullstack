@@ -14,24 +14,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const navList=[
-    {
-      title:'Option 1',
-      link:''
-    },
-    {
-      title:'Option 2',
-      link:''
-    },
-    {
-      title:'Option 3',
-      link:''
-    },
-    {
-      title:'Option 4',
-      link:''
-    }
-  ];
   return (
     <html lang="en">
       <body>
