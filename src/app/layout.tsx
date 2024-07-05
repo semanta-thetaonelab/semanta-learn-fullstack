@@ -15,6 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    
     <html lang="en">
       <body>
         <div className="bg-slate-400 w-full h-[100vh] relative overflow-hidden">
