@@ -12,7 +12,7 @@ const Home = () => {
   }, []);
 
   const enterCard = () => {
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 12; i++) {
       setTimeout(() => {
         const cardElement = (
           <div
