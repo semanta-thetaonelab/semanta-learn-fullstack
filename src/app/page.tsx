@@ -11,9 +11,9 @@ useEffect(()=>{
 },[1])
 const enterCard = () => {
   const card = (
-    <div className="w-[300px] h-[200px] bg-white m-5" style={{borderRadius:'12px'}} key={Math.random()}></div>
+    <div className="w-[350px] h-[250px] bg-white m-5" style={{borderRadius:'12px'}} key={Math.random()}></div>
   );
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 3; i++) {
     setTimeout(() => {
       setCards((prev:any) => [...prev, card]);
     }, 100 * i);
