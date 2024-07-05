@@ -3,7 +3,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function Home(card: JSX.Element) {
+export default function Home(card: any) {
 const [sl,setSl]=useState (true) 
 const router=useRouter();
 // useEffect(()=>{
