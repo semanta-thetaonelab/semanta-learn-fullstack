@@ -2,11 +2,9 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
-interface HomeProps {
-  card: JSX.Element;
-}
 
-const Home: React.FC<HomeProps> = ({ card }) => {
+
+const Home = () => {
   const [cards, setCards] = useState<JSX.Element[]>([]);
 
   useEffect(() => {
