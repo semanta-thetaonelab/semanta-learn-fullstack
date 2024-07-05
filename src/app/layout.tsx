@@ -14,12 +14,41 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const navList=[
+    {
+      title:'Option 1',
+      link:''
+    },
+    {
+      title:'Option 2',
+      link:''
+    },
+    {
+      title:'Option 3',
+      link:''
+    },
+    {
+      title:'Option 4',
+      link:''
+    }
+  ];
   return (
     <html lang="en">
       <body>
         <div className="bg-white w-full h-[100vh] relative overflow-hidden">
-           <nav className="relative inline-block w-[200px] h-[100%] bg-red-400"></nav>
-           <main className="absolute inline-block w-[calc(100%-200px)] h-[100%] bg-red-200">{children}</main> 
+           <nav className="relative inline-block w-[200px] h-[100%] bg-red-400 px-3">
+            <div className="w-full text-center text-2xl font-bold">
+                 Magical Component
+            </div>
+              {navList.map((item:any)=>(
+                <>
+                   <div className="p-[10px_0px] w-full mb-3 bg-red-200 flex justify-center items-center" style={{borderRadius:'10px'}}>
+                      {item?.title || ''}
+                   </div>
+                </>
+              ))}
+           </nav>
+           <main className="absolute inline-block w-[calc(100%-200px)] h-[100%] bg-red-50">{children}</main> 
         </div>
       </body>
     </html>
