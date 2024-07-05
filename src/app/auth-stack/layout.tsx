@@ -50,7 +50,7 @@ export default function RootLayout({
                 </>
               ))}
            </nav>
-           <main className="absolute inline-block w-[calc(100%-200px)] h-[100%] bg-red-200">{children}</main> 
+           <main className="absolute inline-block w-[calc(100%-200px)] h-[100%] bg-red-200 overflow-hidden">{children}</main> 
         </div>
       </body>
     </html>
