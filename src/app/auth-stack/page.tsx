@@ -11,15 +11,37 @@ const Home = () => {
     enterCard();
   }, []);
 
+  const data=[
+    {
+      react:'<div></div>',
+      css:''
+    }
+  ]
+
+  const copyText=async(text:string)=>{
+    try {
+      await navigator.clipboard.writeText(text);
+      alert('Text copied to clipboard!');
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  }
   const enterCard = () => {
     for (let i = 0; i < 6; i++) {
       setTimeout(() => {
         const cardElement = (
           <div
-            className="w-[350px] h-[250px] bg-white m-5"
+            className="w-[350px] h-[250px] bg-white m-5 grid grid-rows-[80%_20%]"
             style={{ borderRadius: '12px' }}
             key={Math.random()}
-          ></div>
+          >
+           <div className="flex justify-center items-center">
+            
+           </div>
+           <div className="flex items-center justify-evenly" style={{}}>
+              <div onClick={()=>{copyText('Hi Welcome')}}>copy</div>
+           </div>
+          </div>
         );
         setCards((prev) => [...prev, cardElement]);
       }, 100 * i);
