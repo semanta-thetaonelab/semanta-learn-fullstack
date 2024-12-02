@@ -16,7 +16,8 @@ const pageroute=()=>{
 }
   return (
     <div className="h-full w-[100%] relative flex justify-center items-center">
-      {sl?(        <div className="w-[310px] h-[310px] bg-white flex flex-col justify-center items-center p-3">
+      {sl?(        
+        <div className="w-[310px] h-[310px] bg-white flex flex-col justify-center items-center p-3">
            <b className="text-[20px] mb-3">Log in</b>
            <p className=" w-[90%] text-left mb-2">Email</p>
            <input type="email" className="w-[90%] bg-slate-400 px-3 py-1 mb-2"></input>
