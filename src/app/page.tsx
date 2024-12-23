@@ -6,13 +6,10 @@ import { useRouter } from "next/navigation";
 export default function Home(card: any) {
 const [sl,setSl]=useState (true) 
 const router=useRouter();
-// useEffect(()=>{
-//   setTimeout(()=>{
-//     router.push('/auth-stack')
-//   },3000)
-// })
+
+
 const pageroute=()=>{
-  router.push('/auth-stack')
+  router.push('/auth-stack/Fiber')
 }
   return (
     <div className="h-full w-[100%] relative flex justify-center items-center">

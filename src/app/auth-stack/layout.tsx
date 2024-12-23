@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -12,26 +11,26 @@ export default function RootLayout({children,}: Readonly<{
 children: React.ReactNode;}>) {
   const navList = [
     {
-      title: 'Loading',
-      link: ''
+      title: 'Fiber',
+      link: '/auth-stack/Fiber'
     },
     {
-      title: 'Option 2',
-      link: ''
+      title: 'Drei',
+      link: '/auth-stack/Drei'
     },
     {
-      title: 'Option 3',
-      link: ''
+      title: 'Rapier',
+      link: '/auth-stack/Rapier'
     },
-    {
-      title: 'Option 4',
-      link: ''
-    }
+    // {
+    //   title: 'Option 4',
+    //   link: ''
+    // }
   ];
 
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body >
         <div className="bg-white w-full h-[100vh] relative overflow-hidden">
           <nav className="relative inline-block w-[200px] h-[100%] bg-red-400 px-3">
             <div className="w-full text-center text-2xl font-bold text-white mt-3">
@@ -41,12 +40,14 @@ children: React.ReactNode;}>) {
               <div className="under-line h-[5px] bg-white w-full"></div>
             </div>
             {navList.map((item, index) => (
+              <Link href={item.link} key={index}>
               <div key={index} className="p-[10px_0px] w-full mb-3 bg-red-200 flex justify-center items-center cursor-pointer" style={{ borderRadius: '10px' }}>
                 {item?.title || ''}
               </div>
+              </Link>
             ))}
           </nav>
-          <main className="absolute inline-block h-[100%] bg-red-200 overflow-hidden" style={{ width: 'calc(100% - 200px)' }}>
+          <main className="absolute inline-block h-[100%]  overflow-hidden" style={{ width: 'calc(100% - 200px)' }}>
             {children}
           </main>
         </div>
