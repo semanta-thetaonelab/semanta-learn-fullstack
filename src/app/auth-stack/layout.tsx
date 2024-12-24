@@ -27,7 +27,25 @@ children: React.ReactNode;}>) {
     //   link: ''
     // }
   ];
-
+  const fiberList=[
+    {
+      title: 'Add Canvas',
+      link: '/auth-stack/Fiber/Basic'
+    },
+    {
+      title: 'Add Shape',
+      link: '/auth-stack/Fiber/Add-Mesh'
+    },
+    {
+      title: 'Move and Scale Mesh',
+      link: '/auth-stack/Fiber/Move-Mesh'
+    },
+    {
+      title: 'Group and Rotation',
+      link: '/auth-stack/Fiber/Group-and-Rotation'
+    },
+  ];
+  
   return (
     <html lang="en">
       <body >
@@ -39,7 +57,15 @@ children: React.ReactNode;}>) {
             <div className="w-full my-3 flex justify-center">
               <div className="under-line h-[5px] bg-white w-full"></div>
             </div>
-            {navList.map((item, index) => (
+            <strong className="text-[25px]">Fiber</strong>
+            {/* {navList.map((item, index) => (
+              <Link href={item.link} key={index}>
+              <div key={index} className="p-[10px_0px] w-full mb-3 bg-red-200 flex justify-center items-center cursor-pointer" style={{ borderRadius: '10px' }}>
+                {item?.title || ''}
+              </div>
+              </Link>
+            ))} */}
+            {fiberList.map((item, index) => (
               <Link href={item.link} key={index}>
               <div key={index} className="p-[10px_0px] w-full mb-3 bg-red-200 flex justify-center items-center cursor-pointer" style={{ borderRadius: '10px' }}>
                 {item?.title || ''}

@@ -9,7 +9,7 @@ const router=useRouter();
 
 
 const pageroute=()=>{
-  router.push('/auth-stack/Fiber')
+  router.push('/auth-stack/Fiber/Basic')
 }
   return (
     <div className="h-full w-[100%] relative flex justify-center items-center">
