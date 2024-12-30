@@ -22,10 +22,6 @@ children: React.ReactNode;}>) {
       title: 'Rapier',
       link: '/auth-stack/Rapier'
     },
-    // {
-    //   title: 'Option 4',
-    //   link: ''
-    // }
   ];
   const fiberList=[
     {
@@ -44,6 +40,18 @@ children: React.ReactNode;}>) {
       title: 'Group and Rotation',
       link: '/auth-stack/Fiber/Group-and-Rotation'
     },
+    {
+      title: 'Use Freame Hook',
+      link: '/auth-stack/Fiber/Use-Frame-Hook'
+    },
+    {
+      title: 'Camera',
+      link: '/auth-stack/Fiber/Camera'
+    },
+    {
+      title: 'Canvas Props',
+      link: '/auth-stack/Fiber/Orthographic-Camera'
+    }
   ];
   
   return (
