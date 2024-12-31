@@ -11,16 +11,11 @@ const Fiber = () => {
     return (
         <div className="h-full w-[100%] relative flex justify-center items-start">
             <Canvas className="bg-black" 
-               orthographic // if we pass orthographic as props it will be enabl   
-               gl={{
-               antialias:true, // antialias make sharp edges and so the object looking more clearly defalut is true
-               alpha:false // it's make canvas background color transparent 
-               }} 
-
             camera={{fov:125, near:0.1,far:2000,position:[0,0,5],
             zoom:5}}
             >
                 <OrbitControls />
+                <axesHelper args={[10]}/> // here blue is z axes, green y axes, red x axes, and args difine it's size
                 <group rotation={[0.2,0.3,1]}>
                     <mesh position={[1, 0, 0]} scale={0.4}>
                         <sphereGeometry />
