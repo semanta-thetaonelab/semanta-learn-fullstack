@@ -59,7 +59,11 @@ children: React.ReactNode;}>) {
     {
       title: 'Grid Helper',
       link: '/auth-stack/Fiber/Grid-Helper'
-    }
+    },
+    {
+      title: 'Texture Loader',
+      link: '/auth-stack/Fiber/Texture-Loader'
+    },
   ];
   
   return (
