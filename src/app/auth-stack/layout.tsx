@@ -64,8 +64,18 @@ children: React.ReactNode;}>) {
       title: 'Texture Loader',
       link: '/auth-stack/Fiber/Texture-Loader'
     },
+    {
+      title: 'GLTF Loader',
+      link: '/auth-stack/Fiber/GLTF-Loader'
+    },
   ];
   
+  const dreiList=[
+    {
+      title: 'UseGLTF',
+      link: '/auth-stack/Drei/Use-GLTF'
+    },
+  ];
   return (
     <html lang="en">
       <body >
@@ -77,8 +87,17 @@ children: React.ReactNode;}>) {
             <div className="w-full my-3 flex justify-center">
               <div className="under-line h-[5px] bg-white w-full"></div>
             </div>
+
             <strong className="text-[25px]">Fiber</strong>
             {fiberList.map((item, index) => (
+              <Link href={item.link} key={index}>
+              <div key={index} className="p-[10px_0px] w-full mb-3 bg-red-200 flex justify-center items-center cursor-pointer" style={{ borderRadius: '10px' }}>
+                {item?.title || ''}
+              </div>
+              </Link>
+            ))}
+            <strong className="text-[25px]">Drei</strong>
+            {dreiList.map((item, index) => (
               <Link href={item.link} key={index}>
               <div key={index} className="p-[10px_0px] w-full mb-3 bg-red-200 flex justify-center items-center cursor-pointer" style={{ borderRadius: '10px' }}>
                 {item?.title || ''}
