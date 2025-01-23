@@ -10,14 +10,7 @@ const Scene = () => {
     const animations=useAnimations(modal.animations,modal.scene);
     let idx=0;
     useEffect(()=>{
-        animations.actions['Walk']?.play()
-        setTimeout(()=>{
-         idx+=1;
-         if(idx==3){
-            idx=0;
-         }
-         setMode(animationNames[idx]);
-        },10000)
+        animations.actions['Run']?.play();
     },[mode])
     return (<>
         <OrbitControls />

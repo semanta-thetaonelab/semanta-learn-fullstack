@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import Link from "next/link";
+import { title } from "process";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -70,10 +71,16 @@ children: React.ReactNode;}>) {
     },
   ];
   
-  const dreiList=[
+  // const dreiList=[
+  //   {
+  //     title: 'UseGLTF',
+  //     link: '/auth-stack/Drei/Shapes'
+  //   },
+  // ];
+  const dreiList1=[
     {
-      title: 'UseGLTF',
-      link: '/auth-stack/Drei/Use-GLTF'
+      title:'Shapes',
+      link:'/auth-stack/Drei/Shapes'
     },
   ];
   return (
@@ -96,8 +103,11 @@ children: React.ReactNode;}>) {
               </div>
               </Link>
             ))}
-            <strong className="text-[25px]">Drei</strong>
-            {dreiList.map((item, index) => (
+            <strong className="text-[25px] mt-4 block">Drei</strong>
+            <strong className="text-[16px] mt-2 block">1.Shapes</strong>
+            
+
+            {dreiList1.map((item, index) => (
               <Link href={item.link} key={index}>
               <div key={index} className="p-[10px_0px] w-full mb-3 bg-red-200 flex justify-center items-center cursor-pointer" style={{ borderRadius: '10px' }}>
                 {item?.title || ''}
