@@ -129,6 +129,10 @@ children: React.ReactNode;}>) {
       title:'Positional Audio',
       link:'/auth-stack/Drei/Abstaction/PositionalAudio'
     },
+    {
+      title:'3D Text',
+      link:'/auth-stack/Drei/Abstaction/3DText'
+    },
     
   ];
   return (
