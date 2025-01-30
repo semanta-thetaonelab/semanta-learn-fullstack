@@ -83,6 +83,54 @@ children: React.ReactNode;}>) {
       link:'/auth-stack/Drei/Shapes'
     },
   ];
+
+  const dreiList2=[
+    {
+      title:'useGLTF',
+      link:'/auth-stack/Drei/Loaders/Use-GLTF'
+    },
+    {
+      title:'useTexture',
+      link:'/auth-stack/Drei/Loaders/Use-Texture'
+    },
+    {
+      title:'useCubeTexture',
+      link:'/auth-stack/Drei/Loaders/Use-Cube-Texture'
+    },
+    {
+      title:'useSVG',
+      link:'/auth-stack/Drei/Loaders/Use-SVG'
+    },
+    
+  ];
+
+  const dreiList3=[
+    {
+      title:'Billboard',
+      link:'/auth-stack/Drei/Abstaction/Billboard'
+    },
+    {
+      title:'Detailed',
+      link:'/auth-stack/Drei/Abstaction/Detailed'
+    },
+    {
+      title:'Image',
+      link:'/auth-stack/Drei/Abstaction/Image'
+    },
+    {
+      title:'Svg',
+      link:'/auth-stack/Drei/Abstaction/Svg'
+    },
+    {
+      title:'Outlines',
+      link:'/auth-stack/Drei/Abstaction/Outlines'
+    },
+    {
+      title:'Positional Audio',
+      link:'/auth-stack/Drei/Abstaction/PositionalAudio'
+    },
+    
+  ];
   return (
     <html lang="en">
       <body >
@@ -105,9 +153,24 @@ children: React.ReactNode;}>) {
             ))}
             <strong className="text-[25px] mt-4 block">Drei</strong>
             <strong className="text-[16px] mt-2 block">1.Shapes</strong>
-            
 
             {dreiList1.map((item, index) => (
+              <Link href={item.link} key={index}>
+              <div key={index} className="p-[10px_0px] w-full mb-3 bg-red-200 flex justify-center items-center cursor-pointer" style={{ borderRadius: '10px' }}>
+                {item?.title || ''}
+              </div>
+              </Link>
+            ))}
+            <strong className="text-[16px] mt-2 block">2.Loaders</strong>
+            {dreiList2.map((item, index) => (
+              <Link href={item.link} key={index}>
+              <div key={index} className="p-[10px_0px] w-full mb-3 bg-red-200 flex justify-center items-center cursor-pointer" style={{ borderRadius: '10px' }}>
+                {item?.title || ''}
+              </div>
+              </Link>
+            ))}
+                        <strong className="text-[16px] mt-2 block">2.Abstactions</strong>
+            {dreiList3.map((item, index) => (
               <Link href={item.link} key={index}>
               <div key={index} className="p-[10px_0px] w-full mb-3 bg-red-200 flex justify-center items-center cursor-pointer" style={{ borderRadius: '10px' }}>
                 {item?.title || ''}
