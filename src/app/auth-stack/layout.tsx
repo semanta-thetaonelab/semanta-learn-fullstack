@@ -134,13 +134,26 @@ export default function RootLayout({ children, }: Readonly<{
       title: '3D Text',
       link: '/auth-stack/Drei/Abstaction/3DText'
     },
-
   ];
 
   const dreiList4 = [
     {
       title: 'Curve Modifier',
       link: '/auth-stack/Drei/Modifier/CurveModifier'
+    },
+  ];
+  const dreiList5 = [
+    {
+      title: 'Orbital Controls',
+      link: '/auth-stack/Drei/Controls/OrbitControls'
+    },
+    {
+      title: 'Keyboard Controls',
+      link: '/auth-stack/Drei/Controls/KeyboardControls'
+    },
+    {
+      title: 'Camera Controls',
+      link: '/auth-stack/Drei/Controls/CameraControls'
     },
   ];
   return (
@@ -191,6 +204,14 @@ export default function RootLayout({ children, }: Readonly<{
             ))}
             <strong className="text-[16px] mt-2 block">4.Modifier</strong>
             {dreiList4.map((item, index) => (
+              <Link href={item.link} key={index}>
+                <div key={index} className="p-[10px_0px] w-full mb-3 bg-red-200 flex justify-center items-center cursor-pointer" style={{ borderRadius: '10px' }}>
+                  {item?.title || ''}
+                </div>
+              </Link>
+            ))}
+            <strong className="text-[16px] mt-2 block">5.Controls</strong>
+            {dreiList5.map((item, index) => (
               <Link href={item.link} key={index}>
                 <div key={index} className="p-[10px_0px] w-full mb-3 bg-red-200 flex justify-center items-center cursor-pointer" style={{ borderRadius: '10px' }}>
                   {item?.title || ''}
