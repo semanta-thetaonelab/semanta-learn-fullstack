@@ -11,20 +11,6 @@ export const metadata: Metadata = {
 export default function RootLayout({ children, }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const navList = [
-    {
-      title: 'Fiber',
-      link: '/auth-stack/Fiber'
-    },
-    {
-      title: 'Drei',
-      link: '/auth-stack/Drei'
-    },
-    {
-      title: 'Rapier',
-      link: '/auth-stack/Rapier'
-    },
-  ];
   const fiberList = [
     {
       title: 'Add Canvas',
@@ -72,12 +58,9 @@ export default function RootLayout({ children, }: Readonly<{
     },
   ];
 
-  // const dreiList=[
-  //   {
-  //     title: 'UseGLTF',
-  //     link: '/auth-stack/Drei/Shapes'
-  //   },
-  // ];
+
+
+
   const dreiList1 = [
     {
       title: 'Shapes',
@@ -101,6 +84,10 @@ export default function RootLayout({ children, }: Readonly<{
     {
       title: 'useSVG',
       link: '/auth-stack/Drei/Loaders/Use-SVG'
+    },
+    {
+      title: 'useVideoTexture',
+      link: '/auth-stack/Drei/Loaders/Use-Video-Texture'
     },
 
   ];
