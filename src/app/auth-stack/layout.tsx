@@ -155,6 +155,14 @@ export default function RootLayout({ children, }: Readonly<{
       title: 'Camera Controls',
       link: '/auth-stack/Drei/Controls/CameraControls'
     },
+    {
+      title: 'Presentation Controls',
+      link: '/auth-stack/Drei/Controls/PresentationControls'
+    },
+    {
+      title: 'Scroll Controls',
+      link: '/auth-stack/Drei/Controls/ScrollControls'
+    },
   ];
   return (
     <html lang="en">

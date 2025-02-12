@@ -27,6 +27,8 @@ const Scene = () => {
         panSpeed={1.8} //pan sensitivity
         screenSpacePanning={true} // Enables panning in screen space instead of world space
         keyPanSpeed={0.7}//panning speed on key board
+        autoRotate={true}
+        autoRotateSpeed={6}
         />
         <ambientLight intensity={2} />
 
