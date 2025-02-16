@@ -121,6 +121,10 @@ export default function RootLayout({ children, }: Readonly<{
       title: '3D Text',
       link: '/auth-stack/Drei/Abstaction/3DText'
     },
+    {
+      title: 'HTML',
+      link: '/auth-stack/Drei/Abstaction/HTML'
+    },
   ];
 
   const dreiList4 = [
