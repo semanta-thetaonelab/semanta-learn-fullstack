@@ -18,9 +18,7 @@ export default function RootLayout({
     
     <html lang="en">
       <body className="overflow-hidden">
-        <div className="bg-slate-400 relative overflow-hidden">
-           <main className="w-full h-full">{children}</main> 
-        </div>
+           <>{children}</>  
       </body>
     </html>
   );

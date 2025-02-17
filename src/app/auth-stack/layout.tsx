@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import Link from "next/link";
 import { title } from "process";
+import { dreiList1, dreiList2, dreiList3, dreiList4, dreiList5, fiberList, Rapier1 } from "../../../utils/Route";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -11,150 +12,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children, }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const fiberList = [
-    {
-      title: 'Add Canvas',
-      link: '/auth-stack/Fiber/Basic'
-    },
-    {
-      title: 'Add Shape',
-      link: '/auth-stack/Fiber/Add-Mesh'
-    },
-    {
-      title: 'Move and Scale Mesh',
-      link: '/auth-stack/Fiber/Move-Mesh'
-    },
-    {
-      title: 'Group and Rotation',
-      link: '/auth-stack/Fiber/Group-and-Rotation'
-    },
-    {
-      title: 'Use Freame Hook',
-      link: '/auth-stack/Fiber/Use-Frame-Hook'
-    },
-    {
-      title: 'Camera',
-      link: '/auth-stack/Fiber/Camera'
-    },
-    {
-      title: 'Canvas Props',
-      link: '/auth-stack/Fiber/Orthographic-Camera'
-    },
-    {
-      title: 'Axes Helper',
-      link: '/auth-stack/Fiber/Axes-Helper'
-    },
-    {
-      title: 'Grid Helper',
-      link: '/auth-stack/Fiber/Grid-Helper'
-    },
-    {
-      title: 'Texture Loader',
-      link: '/auth-stack/Fiber/Texture-Loader'
-    },
-    {
-      title: 'GLTF Loader',
-      link: '/auth-stack/Fiber/GLTF-Loader'
-    },
-  ];
 
-
-
-
-  const dreiList1 = [
-    {
-      title: 'Shapes',
-      link: '/auth-stack/Drei/Shapes'
-    },
-  ];
-
-  const dreiList2 = [
-    {
-      title: 'useGLTF',
-      link: '/auth-stack/Drei/Loaders/Use-GLTF'
-    },
-    {
-      title: 'useTexture',
-      link: '/auth-stack/Drei/Loaders/Use-Texture'
-    },
-    {
-      title: 'useCubeTexture',
-      link: '/auth-stack/Drei/Loaders/Use-Cube-Texture'
-    },
-    {
-      title: 'useSVG',
-      link: '/auth-stack/Drei/Loaders/Use-SVG'
-    },
-    {
-      title: 'useVideoTexture',
-      link: '/auth-stack/Drei/Loaders/Use-Video-Texture'
-    },
-
-  ];
-
-  const dreiList3 = [
-    {
-      title: 'Billboard',
-      link: '/auth-stack/Drei/Abstaction/Billboard'
-    },
-    {
-      title: 'Detailed',
-      link: '/auth-stack/Drei/Abstaction/Detailed'
-    },
-    {
-      title: 'Image',
-      link: '/auth-stack/Drei/Abstaction/Image'
-    },
-    {
-      title: 'Svg',
-      link: '/auth-stack/Drei/Abstaction/Svg'
-    },
-    {
-      title: 'Outlines',
-      link: '/auth-stack/Drei/Abstaction/Outlines'
-    },
-    {
-      title: 'Positional Audio',
-      link: '/auth-stack/Drei/Abstaction/PositionalAudio'
-    },
-    {
-      title: '3D Text',
-      link: '/auth-stack/Drei/Abstaction/3DText'
-    },
-    {
-      title: 'HTML',
-      link: '/auth-stack/Drei/Abstaction/HTML'
-    },
-  ];
-
-  const dreiList4 = [
-    {
-      title: 'Curve Modifier',
-      link: '/auth-stack/Drei/Modifier/CurveModifier'
-    },
-  ];
-  const dreiList5 = [
-    {
-      title: 'Orbital Controls',
-      link: '/auth-stack/Drei/Controls/OrbitControls'
-    },
-    {
-      title: 'Keyboard Controls',
-      link: '/auth-stack/Drei/Controls/KeyboardControls'
-    },
-    {
-      title: 'Camera Controls',
-      link: '/auth-stack/Drei/Controls/CameraControls'
-    },
-    {
-      title: 'Presentation Controls',
-      link: '/auth-stack/Drei/Controls/PresentationControls'
-    },
-    {
-      title: 'Scroll Controls',
-      link: '/auth-stack/Drei/Controls/ScrollControls'
-    },
-  ];
   return (
     <html lang="en">
       <body >
@@ -211,6 +69,16 @@ export default function RootLayout({ children, }: Readonly<{
             ))}
             <strong className="text-[16px] mt-2 block">5.Controls</strong>
             {dreiList5.map((item, index) => (
+              <Link href={item.link} key={index}>
+                <div key={index} className="p-[10px_0px] w-full mb-3 bg-red-200 flex justify-center items-center cursor-pointer" style={{ borderRadius: '10px' }}>
+                  {item?.title || ''}
+                </div>
+              </Link>
+            ))}
+
+          <strong className="text-[25px] mt-4 block">Rapier</strong>
+          <strong className="text-[16px] mt-2 block">1.Bsic of Physic</strong>
+          {Rapier1.map((item, index) => (
               <Link href={item.link} key={index}>
                 <div key={index} className="p-[10px_0px] w-full mb-3 bg-red-200 flex justify-center items-center cursor-pointer" style={{ borderRadius: '10px' }}>
                   {item?.title || ''}

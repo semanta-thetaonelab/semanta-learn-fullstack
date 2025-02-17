@@ -12,7 +12,7 @@ const pageroute=()=>{
   router.push('/auth-stack/Fiber/Basic')
 }
   return (
-    <div className="h-full w-[100%] relative flex justify-center items-center">
+    <div className="h-[100vh] w-[100%] relative flex justify-center items-center">
       {sl?(        
         <div className="w-[310px] h-[310px] bg-white flex flex-col justify-center items-center p-3">
            <b className="text-[20px] mb-3">Log in</b>
