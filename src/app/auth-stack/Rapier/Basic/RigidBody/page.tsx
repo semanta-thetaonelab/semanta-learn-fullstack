@@ -9,7 +9,7 @@ const Drei = () => {
 
     return (
         <div className="h-full w-[100%] relative flex justify-center items-start">
-            <Canvas className="bg-black" shadows>
+            <Canvas className="bg-black" shadows={true}>
                 <Physics debug={true}>
                   <Scene/>
                 </Physics>
