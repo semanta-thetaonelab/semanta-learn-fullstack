@@ -146,4 +146,10 @@ export  const Rapier1=[
         title: 'RigidBody',
         link: '/auth-stack/Rapier/Basic/RigidBody'
     },
-]     
+];
+export const Project=[
+  {
+    title: 'Movie hall',
+    link: '/auth-stack/March-Project'
+},
+];     

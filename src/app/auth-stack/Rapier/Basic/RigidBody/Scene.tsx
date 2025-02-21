@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
 
 import * as THREE from "three"
-import { OrbitControls,} from "@react-three/drei";
+import { OrbitControls, PerspectiveCamera,} from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
 
 //Forces a mesh (e.g., text, plane) to always face the camera.
@@ -15,14 +15,15 @@ const Scene = () => {
     }
     return (<>
         <OrbitControls />
-        <perspectiveCamera position={[100,0,550]} />
-        <ambientLight intensity={2}/>
-        <pointLight intensity={5} color={'blue'} position={[0,5,-5]} castShadow/>
+        <PerspectiveCamera makeDefault position={[0,8,20]} rotation={[0,2,0]}/>
+        <ambientLight intensity={0.5}/>
+        <pointLight intensity={80}  position={[0,5,-2]} castShadow color={'red'}/>
+        <pointLight intensity={120}  position={[0,5,2]} castShadow color={'#0aaef5'}/>
         <RigidBody type="dynamic"ref={box} gravityScale={0.1}>
         <mesh position={[0,5,0]} onClick={()=>{move()}} castShadow>
             {/* <shapeGeometry/> */}
             <boxGeometry/>
-            <meshStandardMaterial color={'red'}/>
+            <meshStandardMaterial color={'red'} roughness={0}/>
         </mesh>
         </RigidBody>
         <RigidBody type="fixed">

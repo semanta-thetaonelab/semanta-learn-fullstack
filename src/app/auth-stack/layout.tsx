@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import Link from "next/link";
 import { title } from "process";
-import { dreiList1, dreiList2, dreiList3, dreiList4, dreiList5, fiberList, Rapier1 } from "../../../utils/Route";
+import { dreiList1, dreiList2, dreiList3, dreiList4, dreiList5, fiberList, Project, Rapier1 } from "../../../utils/Route";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -85,6 +85,14 @@ export default function RootLayout({ children, }: Readonly<{
                 </div>
               </Link>
             ))}
+          <strong className="text-[25px]">Project 1</strong>
+          {Project.map((item, index) => (
+              <Link href={item.link} key={index}>
+                <div key={index} className="p-[10px_0px] w-full mb-3 bg-red-200 flex justify-center items-center cursor-pointer" style={{ borderRadius: '10px' }}>
+                  {item?.title || ''}
+                </div>
+              </Link>
+            ))}  
           </nav>
           <main className="absolute inline-block h-[100%]  overflow-hidden" style={{ width: 'calc(100% - 200px)' }}>
             {children}
