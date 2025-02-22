@@ -18,7 +18,8 @@ const Scene = () => {
     const retryButton = useTexture("/img/Retry.png");
     const [audio, setAudio] = useState(false);
     const [selectedSit, setSelectedSit] = useState(0);
-    const [retry, setRetry] = useState(false)
+    const [retry, setRetry] = useState(false);
+    const [camera,setCamera] = useState({x:-5.1,y:40,z:60})
     const chairRef = useRef<Map<number, THREE.Mesh>>(new Map());
     const cameraRef = useRef<any>();
 
@@ -28,16 +29,17 @@ const Scene = () => {
         const y = (selected?.position.y || 0) + 1;
         const z = (selected?.position.z || 0) - 1;
         const x = (selected?.position.x || 0);
-
-        cameraRef.current.position.x = x;
-        cameraRef.current.position.y = y;
-        cameraRef.current.position.z = z;
+        setCamera({...camera,x,y,z});
         const listener = new THREE.AudioListener();
         cameraRef.current.add(listener);
         setRetry(true)
 
     }
     useFrame(() => {
+        
+            cameraRef.current.position.lerp({x:camera.x,y:camera.y,z:camera.z},0.1)
+        
+        
         cameraRef.current.lookAt(-3.8, 8, -20)
     })
 
@@ -45,7 +47,7 @@ const Scene = () => {
         <OrbitControls
             enabled={audio}
             minDistance={0}
-            maxDistance={60}
+            maxDistance={80}
         />
 
         <ambientLight intensity={0.9} />
@@ -82,7 +84,7 @@ const Scene = () => {
         <PerspectiveCamera
             ref={cameraRef}
             makeDefault
-            position={[-5.1, 38, 60]}
+            position={[-5.1, 60, 80]}
         />
 
         {audio &&
@@ -114,11 +116,9 @@ const Scene = () => {
 
         {retry &&
             <mesh position={[12, 20, -33]} onClick={() => {
-                cameraRef.current.position.x = -5.1;
-                cameraRef.current.position.y = 38;
-                cameraRef.current.position.z = 60;
+                setCamera({...camera,x:-5.1,y:60,z:80});
                 setRetry(false);
-                setSelectedSit(0)
+                setSelectedSit(0);
                 }}>
                 <planeGeometry args={[2, 2]} />
                 <meshStandardMaterial map={retryButton} />
