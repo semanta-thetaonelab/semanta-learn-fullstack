@@ -2,9 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { dbConnect } from "../../../../utils/dbConnect";
 import User from "@/app/lib/models/User";
 import mongoose from "mongoose";
-
-export async function POST(req:NextRequest) {
+import Cors from "next-cors";
+const ALLOWED_ORIGIN = "https://gps-garlic-ext-identity.trycloudflare.com";
+export async function POST(req:NextRequest,res:NextResponse) {
     try {
+
        await dbConnect();
       const { email, password } = await req.json();
       const user = await User.findOne({email});
@@ -15,7 +17,7 @@ export async function POST(req:NextRequest) {
         return new Response(JSON.stringify({ message: "Wrong password" }), { status: 400 });
       }else{
         mongoose.connection.close();
-        return new Response(JSON.stringify({ message: "Login successful",data:user }), { status: 200 });
+        return new Response(JSON.stringify({ message: "Login successful",data:user }), { status: 200});
       }
     } catch (error) {
       console.log(error);
