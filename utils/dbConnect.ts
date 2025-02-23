@@ -1,11 +1,11 @@
-import { connectStr } from "@/app/lib/db";
+
 import mongoose from "mongoose";
 const options: any = {};
-
+const MONGODB_URL=process.env.MONGODB_URL;
 export const dbConnect = async () => {
   try {
     if (mongoose.connection.readyState === 0) {
-      await mongoose.connect(connectStr, options);
+      await mongoose.connect(MONGODB_URL || '', options);
       mongoose.set("debug", true);
       mongoose.pluralize(null);
     }
