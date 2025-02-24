@@ -14,7 +14,7 @@ const Signup=({openLogin}:{openLogin:()=>void})=>{
     const router = useRouter();
     
     const handleSignup=async()=>{
-        const res =await Post('http://localhost:3000/api/signUp',user);
+        const res =await Post('/api/signUp',user);
         if(res.status){
             localStorage.setItem('user',JSON.stringify(res.response?.data));
             router.push('/auth-stack/March-Project');

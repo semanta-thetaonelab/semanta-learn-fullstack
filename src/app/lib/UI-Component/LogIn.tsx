@@ -13,7 +13,7 @@ const Login=({openSignup}:{openSignup:()=>void})=>{
     }
     const router=useRouter();
     const handelLogin=async()=>{
-        const res =await Post('http://localhost:3000/api/login',user);
+        const res =await Post('/api/login',user);
         if(res.status){
             localStorage.setItem('user',JSON.stringify(res.response?.data));
             router.push('/auth-stack/March-Project');
