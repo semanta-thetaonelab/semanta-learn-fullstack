@@ -166,6 +166,10 @@ export  const Rapier1=[
       title: 'Add Torque',
       link: '/auth-stack/Rapier/Basic/AddTorque'
     },
+    {
+      title: 'Torque Impulse',
+      link: '/auth-stack/Rapier/Basic/TorqueImpulse'
+    },
 ];
 export const Project=[
   {

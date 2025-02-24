@@ -7,7 +7,7 @@ import { CapsuleCollider, CuboidCollider, RigidBody } from "@react-three/rapier"
 const Scene = () => {
     const box=useRef<any>();
     const move=()=>{
-        box.current?.addTorque({x:0,y:180,z:0}); // only apply continue force to roatate not move
+        box.current?.applyTorqueImpulse({x:0,y:80,z:0}); // only apply force each call to roatate not move
     }
     return (<>
         <OrbitControls />
@@ -16,14 +16,14 @@ const Scene = () => {
         <pointLight intensity={80}  position={[0,5,-2]} castShadow color={'red'}/>
         <pointLight intensity={120}  position={[0,5,2]} castShadow color={'#0aaef5'}/>
 
-        <RigidBody type="dynamic" gravityScale={1} position={[2,10,0]} colliders='cuboid'>
+        <RigidBody type="dynamic" gravityScale={1} position={[2,10,0]} colliders='cuboid' friction={4}>
         <mesh castShadow onClick={()=>{move()}}>
             <sphereGeometry/>
             <meshStandardMaterial color={'red'} roughness={0}/>
         </mesh>
         </RigidBody>
 
-        <RigidBody type="dynamic" gravityScale={2} ref={box} position={[5,10,0]} colliders='cuboid'>
+        <RigidBody type="dynamic" gravityScale={2} ref={box} position={[5,10,0]} colliders='cuboid' friction={5}>
         <mesh castShadow onClick={()=>{move()}} scale={2}>
             <boxGeometry/>
             <meshStandardMaterial color={'yellow'} roughness={100}/>
