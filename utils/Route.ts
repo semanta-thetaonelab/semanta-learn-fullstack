@@ -171,6 +171,12 @@ export  const Rapier1=[
       link: '/auth-stack/Rapier/Basic/TorqueImpulse'
     },
 ];
+export  const Rapier2=[
+  {
+      title: 'onCollisionEnter',
+      link: '/auth-stack/Rapier/Event/onCollisionEnter'
+  },
+];
 export const Project=[
   {
     title: 'Movie hall',
