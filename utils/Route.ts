@@ -146,6 +146,22 @@ export  const Rapier1=[
         title: 'RigidBody',
         link: '/auth-stack/Rapier/Basic/RigidBody'
     },
+    {
+      title: 'Colliders',
+      link: '/auth-stack/Rapier/Basic/Colliders'
+    },
+    {
+      title: 'Custom Colliders',
+      link: '/auth-stack/Rapier/Basic/CustomColliders'
+    },
+    {
+      title: 'Add Force',
+      link: '/auth-stack/Rapier/Basic/AddForce'
+    },
+    {
+      title: 'Apply Impulse',
+      link: '/auth-stack/Rapier/Basic/ApplyImpulse'
+    },
 ];
 export const Project=[
   {
