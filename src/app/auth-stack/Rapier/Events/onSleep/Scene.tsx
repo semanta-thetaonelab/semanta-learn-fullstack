@@ -2,9 +2,9 @@ import React, { Suspense, useEffect, useRef, useState } from "react";
 
 import * as THREE from "three"
 import { Capsule, OrbitControls, PerspectiveCamera,} from "@react-three/drei";
-import { CapsuleCollider, CuboidCollider, RapierRigidBody, RigidBody } from "@react-three/rapier";
+import { CapsuleCollider, CuboidCollider, RigidBody } from "@react-three/rapier";
 
-//on collision Enter or Exit it's detected it's hit by whome object...
+// onSleep event is trigger when the object stop movement
 
 const Scene = () => {
     const box=useRef<any>();
@@ -27,25 +27,7 @@ const Scene = () => {
         </RigidBody>
 
         <RigidBody type="dynamic" gravityScale={2} position={[5,10,0]} colliders='cuboid' friction={5} name="cube"
-         onCollisionEnter={(e)=>{
-            // console.log(e.colliderObject,'Enter colliderObject') // return the mesh who cause the collision
-            console.log(e.colliderObject?.name,'Enter colliderObject') // return the mesh name who cause the collision
-            // console.log(e.rigidBodyObject,'Enter rigidBodyObject') // return the mesh Rigid Body as object who cause the collision
-            // console.log(e.rigidBody,'Enter rigidBody') // return the mesh Rigid Body 
-            console.log(e.manifold);
-            const rigidBody:any = e.rigidBody;
-
-            if (rigidBody) {
-              // Apply an impulse (force) in the upward direction
-              rigidBody?.applyImpulse({ x: -180, y: 0, z: 0 }, true);
-            }
-         }}
-
-        //  onCollisionExit={(e)=>{
-        //     console.log(e.colliderObject,'Exit')
-        //     console.log(e.colliderObject?.name,'Exit')
-        //  }}
-         
+         onSleep={()=>{console.log('Rigid body is sleeping')}}
         >
         <mesh castShadow scale={2}>
             <boxGeometry/>
@@ -53,9 +35,9 @@ const Scene = () => {
         </mesh>
         </RigidBody>
 
-        <></>
+
         <RigidBody type="fixed">
-        <mesh scale={[55,1,55]} receiveShadow>
+        <mesh scale={[25,1,25]} receiveShadow>
             <boxGeometry/>
             <meshStandardMaterial color={'yellow'} side={THREE.DoubleSide}/>
         </mesh>

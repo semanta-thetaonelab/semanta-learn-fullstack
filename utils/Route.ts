@@ -173,8 +173,16 @@ export  const Rapier1=[
 ];
 export  const Rapier2=[
   {
-      title: 'onCollisionEnter',
+      title: 'On Collision',
       link: '/auth-stack/Rapier/Events/onCollision'
+  },
+  {
+    title: 'On Sleep',
+    link: '/auth-stack/Rapier/Events/onSleep'
+  },
+  {
+    title: 'On Wake',
+    link: '/auth-stack/Rapier/Events/onWake'
   },
 ];
 export const Project=[
