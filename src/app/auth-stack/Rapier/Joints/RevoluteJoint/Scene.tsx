@@ -9,13 +9,14 @@ const {DEG2RAD}=THREE.MathUtils;
 const Scene = () => {
   const doorRef = useRef(null);
   const wallRef = useRef(null);
+  const ball =useRef<any>(null);
   const joint = useRevoluteJoint(
     wallRef,
     doorRef,
     [
       [1, 0, 0], // Rotate point from parant 
-      [2,0,0], // Position of child
-      [0, 0.2, 0], // Rotation axis (Y-axis)
+      [2,0,0], // Position of chid
+      [0, 1, 0], // Rotation axis (Y-axis)
     ]
   )
 
@@ -50,7 +51,13 @@ const Scene = () => {
           </mesh>
         </RigidBody>
 
-        <></>
+        <RigidBody position={[-1,4,0]} type="dynamic" ref={ball}
+        >
+          <mesh scale={1} onClick={()=>{ball.current.applyImpulse({x:0,y:0,z:-100},true)}}>
+            <sphereGeometry/>
+            <meshStandardMaterial color="red"/>
+          </mesh>
+        </RigidBody>
     </>)
 }
 export default Scene;
