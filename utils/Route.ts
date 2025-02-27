@@ -184,6 +184,26 @@ export  const Rapier2=[
     title: 'On Wake',
     link: '/auth-stack/Rapier/Events/onWake'
   },
+  {
+    title: 'On Intersection',
+    link: '/auth-stack/Rapier/Events/onIntersection'
+  },
+  
+];
+export  const Rapier3=[
+  {
+      title: 'Dynamic',
+      link: '/auth-stack/Rapier/Types/Dynamic'
+  },
+  {
+    title: ' Kinematic Position',
+    link: '/auth-stack/Rapier/Types/KinematicPosition'
+  },
+  {
+    title: ' Kinematic Velocity',
+    link: '/auth-stack/Rapier/Types/KinematicVelocity'
+  },
+  
 ];
 export const Project=[
   {
