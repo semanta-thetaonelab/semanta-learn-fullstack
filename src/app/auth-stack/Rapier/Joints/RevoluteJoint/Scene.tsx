@@ -6,11 +6,21 @@ import { CapsuleCollider, CuboidCollider, RigidBody, useFixedJoint, useRevoluteJ
 import { useFrame } from "@react-three/fiber";
 const {DEG2RAD}=THREE.MathUtils;
 
+//What is Revolte Joint?
+// A Revolute Joint in React Rapier (which is based on the Rapier physics engine) 
+// is a type of joint that allows two rigid bodies to rotate around a single axis 
+// while restricting their movement in other directions. It is commonly used to 
+// simulate hinges, axles, and rotating mechanisms.
+
+//real life example..
+// truck hanger
+// door
+
 const Scene = () => {
   const doorRef = useRef(null);
   const wallRef = useRef(null);
   const ball =useRef<any>(null);
-  const joint = useRevoluteJoint(
+  const joint:any = useRevoluteJoint(
     wallRef,
     doorRef,
     [
@@ -19,6 +29,7 @@ const Scene = () => {
       [0, 1, 0], // Rotation axis (Y-axis)
     ]
   )
+  console.log(joint?.current || '')
 
     return (<>
         <OrbitControls />
@@ -51,8 +62,7 @@ const Scene = () => {
           </mesh>
         </RigidBody>
 
-        <RigidBody position={[-1,4,0]} type="dynamic" ref={ball}
-        >
+        <RigidBody position={[-1,4,0]} type="dynamic" ref={ball} mass={10}>
           <mesh scale={1} onClick={()=>{ball.current.applyImpulse({x:0,y:0,z:-100},true)}}>
             <sphereGeometry/>
             <meshStandardMaterial color="red"/>
