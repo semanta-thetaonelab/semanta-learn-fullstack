@@ -218,6 +218,15 @@ export  const Rapier4=[
     title: 'useSpringJoint',
     link: '/auth-stack/Rapier/Joints/SpringJoint'
   },
+  {
+    title: 'BallJoint',
+    link: '/auth-stack/Rapier/Joints/BallJoint'
+  },
+  {
+    title: 'usePrismaticJoint',
+    link: '/auth-stack/Rapier/Joints/PrismaticJoint'
+  },
+  
 ];
 export const Project=[
   {

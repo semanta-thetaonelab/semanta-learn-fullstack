@@ -2,7 +2,7 @@ import React, { Suspense, useEffect, useRef, useState } from "react";
 
 import * as THREE from "three"
 import { Box, Capsule, OrbitControls, PerspectiveCamera,} from "@react-three/drei";
-import { CapsuleCollider, CuboidCollider, RigidBody, useSpringJoint,} from "@react-three/rapier";
+import { CapsuleCollider, CuboidCollider, RigidBody, useSpringJoint} from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
 const {DEG2RAD}=THREE.MathUtils;
 
@@ -23,10 +23,10 @@ const Scene = () => {
 
   useSpringJoint(boxRef, sphereRef, [
     new THREE.Vector3(-5, -1, 0), // Anchor point on the first body (box)
-    new THREE.Vector3(-5, -1, 0), // Anchor point on the second body (sphere) but it's don't change the second body postion 
-    5, // Rest length of the spring
+    new THREE.Vector3(0, 0, 0), // Anchor point on the second body (sphere) but it's don't change the second body postion 
+    3, // Rest length of the spring
     40, // Stiffness (spring strength)
-    1, //  resistance Damping 
+    5, //  resistance Damping 
   ]);
 
     return (<>
@@ -54,7 +54,7 @@ const Scene = () => {
 
       {/* Sphere (Attached via Spring) */}
       <RigidBody ref={sphereRef}>
-        <mesh position={[-5, -1, 0]}>
+        <mesh position={[0, 0, 0]}>
           <sphereGeometry args={[0.5, 32, 32]} />
           <meshStandardMaterial color="blue" />
         </mesh>
