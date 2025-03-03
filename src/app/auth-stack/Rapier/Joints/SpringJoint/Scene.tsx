@@ -24,9 +24,9 @@ const Scene = () => {
   useSpringJoint(boxRef, sphereRef, [
     new THREE.Vector3(-5, -1, 0), // Anchor point on the first body (box)
     new THREE.Vector3(-5, -1, 0), // Anchor point on the second body (sphere) but it's don't change the second body postion 
-    0, // Rest length of the spring
-    10, // Stiffness (spring strength)
-    0.5, //  resistance Damping 
+    5, // Rest length of the spring
+    40, // Stiffness (spring strength)
+    1, //  resistance Damping 
   ]);
 
     return (<>
