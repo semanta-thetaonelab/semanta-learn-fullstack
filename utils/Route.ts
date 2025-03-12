@@ -233,4 +233,8 @@ export const Project=[
     title: 'Movie hall',
     link: '/auth-stack/March-Project'
 },
+{
+  title: 'Car',
+  link: '/auth-stack/Car'
+},
 ];     

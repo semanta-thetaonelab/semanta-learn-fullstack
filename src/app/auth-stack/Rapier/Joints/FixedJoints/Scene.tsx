@@ -37,8 +37,8 @@ const Scene = () => {
         const position = handleRef.current.translation();
         handleRef.current.setTranslation({ x: position.x, y: position.y, z: (position.z)+0.001 }, true);
         handleRef.current.setAngvel({ x: 0, y: 0, z: -1 }, true);
-        console.clear();
-        console.log(position)
+        // console.clear();
+        // console.log(position)
         
       })
     return (<>

@@ -17,18 +17,18 @@ const {DEG2RAD}=THREE.MathUtils;
 // door
 
 const Scene = () => {
-  const doorRef = useRef(null);
+  const doorRef:any = useRef(null);
   const wallRef = useRef(null);
   const ball =useRef<any>(null);
   const joint:any = useRevoluteJoint(
     wallRef,
     doorRef,
     [
-      [1, 0, 0], // Rotate point from parant 
-      [2,0,0], // Position of chid
-      [0, 1, 0], // Rotation axis (Y-axis)
+      [5, 1.5, 0], // Rotate point from parant 
+      [0,0,0], // Position of chid
+      [1, 0, 0], // Rotation axis (Y-axis)
     ]
-  )
+  );
   console.log(joint?.current || '')
 
     return (<>
@@ -47,7 +47,7 @@ const Scene = () => {
         </RigidBody>
 
         {/* wall */}
-        <RigidBody type="fixed" ref={wallRef} colliders="cuboid" position={[-5,3,-10]} rotation={[0,0,0]}>
+        <RigidBody type="fixed" ref={wallRef} colliders="cuboid" position={[-5,3,-10]} rotation={[0,0,0]} sensor >
         <mesh scale={[1,5,1]}>
             <boxGeometry/>
             <meshStandardMaterial color="blue"/>
@@ -55,8 +55,8 @@ const Scene = () => {
         </RigidBody>
 
          {/* door */}
-        <RigidBody type="dynamic" ref={doorRef} colliders="cuboid">
-        <mesh scale={[3,5,0.2]}>
+        <RigidBody type="dynamic" ref={doorRef} colliders="cuboid" canSleep={false}>
+        <mesh scale={[3,5,0.2]} onClick={()=>{doorRef.current.applyTorqueImpulse({x:110,y:0,z:0})}} position={[0,0,0]}>
             <boxGeometry/>
             <meshStandardMaterial color="blue"/>
           </mesh>

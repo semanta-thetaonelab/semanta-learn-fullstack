@@ -3,6 +3,7 @@ import React, { Suspense, useEffect, useRef, useState } from "react";
 import * as THREE from "three"
 import { Capsule, OrbitControls, PerspectiveCamera, useKeyboardControls,} from "@react-three/drei";
 import { CapsuleCollider, CuboidCollider, RigidBody } from "@react-three/rapier";
+import { useFrame } from "@react-three/fiber";
 
 // on kinematicPosition react like this...
 // Not affected by forces or collisions.
@@ -20,6 +21,7 @@ const Scene = () => {
     useEffect(()=>{
         // rotate?rotateObj():move()
         // rotateObj();
+        move()
     },[f,b,r,l]);
 
     const move=()=>{
@@ -38,8 +40,17 @@ const Scene = () => {
         // console.log("Position:", position);
     }
 
-    
-    return (<>
+    useFrame((state,delta) => {
+        console.clear();
+        const currentRotation = box.current.rotation(); 
+        console.log(currentRotation)
+        const newRotation = new THREE.Quaternion();
+        newRotation.setFromEuler(new THREE.Euler(0, state.clock.elapsedTime*-4, 0));
+        box.current.setNextKinematicRotation(newRotation);
+      });
+
+    return (
+    <>
         <OrbitControls />
         <PerspectiveCamera makeDefault position={[0,8,50]} rotation={[0,2,0]}/>
         <ambientLight intensity={0.5}/>
