@@ -1,20 +1,14 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
 
 import * as THREE from "three"
-import { Capsule, OrbitControls, PerspectiveCamera, useGLTF, } from "@react-three/drei";
-import { CapsuleCollider, CuboidCollider, RapierRigidBody, RigidBody, useFixedJoint, useRevoluteJoint } from "@react-three/rapier";
+import { Box, Capsule, OrbitControls, PerspectiveCamera, useGLTF, } from "@react-three/drei";
+import { CapsuleCollider, CuboidCollider, RapierRigidBody, RigidBody, useFixedJoint, useRevoluteJoint, useSpringJoint } from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
 
 // addForce method apply continue force to the given direction
 
 const Scene = () => {
-    const [sensor, setSensor] = useState(false);
-    const [wh, setWh] = useState({
-        FR: false,
-        FL: false,
-        BR: false,
-        BL: false
-    })
+    const rod1Ref = useRef<any>();
     const carBodyRef = useRef<any>();
     const w1Ref = useRef<any>();
     const w2Ref = useRef<any>();
@@ -29,23 +23,34 @@ const Scene = () => {
     const wheel3 = wheel.scene.clone();
     const wheel4 = wheel.scene.clone();
 
-    // front right
+    // rod 1 
     useRevoluteJoint(
         carBodyRef,
+        rod1Ref,
+        [
+            [0, -1.3, 0], // Rotate point from parant 
+            [0, 0, 0], // Position of chid
+            [0, 1, 0], // Rotation axis (Y-axis)
+        ]
+    );
+
+    // front right
+    useRevoluteJoint(
+        rod1Ref,
         w1Ref,
         [
-            [-1.1, -1.2, -0.2], // Rotate point from parant 
-            [0.1, 0, 0], // Position of chid
+            [-1.1, 0, 0], // Rotate point from parant 
+            [0, 0, 0], // Position of chid
             [1, 0, 0], // Rotation axis (Y-axis)
         ]
     );
     //front left
     useRevoluteJoint(
-        carBodyRef,
+        rod1Ref,
         w2Ref,
         [
-            [1.1, -1.2, -0.2], // Rotate point from parant 
-            [-0.1, 0, 0], // Position of chid
+            [1.1, 0, 0], // Rotate point from parant 
+            [0, 0, 0], // Position of chid
             [1, 0, 0], // Rotation axis (Y-axis)
         ]
     );
@@ -70,11 +75,6 @@ const Scene = () => {
         ]
     );
 
-    useEffect(() => {
-        if (wh.FR && wh.FL && wh.BR && wh.BL) {
-            setSensor(true);
-        }
-    }, [wh])
     // useFrame(() => {
     //     const pos =carBodyRef.current.translation();
     //     cameraRef.current.position.lerp({ x: pos.x , y: pos.y+3, z: pos.z-10 }, 0.1)
@@ -82,13 +82,13 @@ const Scene = () => {
     // })
     return (<>
         <OrbitControls />
-        <PerspectiveCamera ref={cameraRef} makeDefault position={[0, 30, 100]} rotation={[0, 2, 0]} />
+        <PerspectiveCamera ref={cameraRef} makeDefault position={[0, 8, 15]} rotation={[0, 2, 0]} />
         <ambientLight intensity={0.5} />
         <pointLight intensity={80} position={[0, 5, -2]} castShadow color={'red'} />
         <pointLight intensity={120} position={[0, 5, 2]} castShadow color={'#0aaef5'} />
 
         {carBody.scene && (
-            <RigidBody angularDamping={100} name="car" type="dynamic" position={[0, 5, 0]} colliders="trimesh" ref={carBodyRef} gravityScale={5}
+            <RigidBody angularDamping={100} name="car" friction={0} type="dynamic" position={[0, 5, 0]} colliders="trimesh" ref={carBodyRef} gravityScale={5}
                 canSleep={false}
             >
                 {/* <CuboidCollider args={[1,1,1]}/> */}
@@ -100,17 +100,32 @@ const Scene = () => {
                 </group>
             </RigidBody>
         )}
+        
+        <RigidBody
+            ref={rod1Ref}
+            angularDamping={105}
+            position={[0, 3, 0]}
+            sensor
+            canSleep={false}
+            enabledRotations={[false, true, false]}
+        >
+            <mesh onClick={() => { rod1Ref.current?.applyTorqueImpulse({ x: 0, y: 10, z: 0 }) }}>
+                <boxGeometry args={[0.5, 0.1, 0.5]} />
+                <meshStandardMaterial color="white" />
+            </mesh>
+        </RigidBody>
 
         {wheel1 && (
             <RigidBody
                 type="dynamic"
-                position={[-1.5, 3, 3]}
+                position={[-1.5, 5, 0]}
                 colliders="ball"
                 ref={w1Ref}
                 canSleep={false}
                 gravityScale={5}
                 linearDamping={3}
                 angularDamping={5}
+            // sensor
             >
                 {/* <CuboidCollider args={[1,1,1]}/> */}
                 <group scale={0.2 / 15}>
@@ -121,13 +136,15 @@ const Scene = () => {
         {wheel2 && (
             <RigidBody
                 type="dynamic"
-                position={[1.5, 3, 3]}
+                position={[1.5, 5, 0]}
                 colliders="ball"
                 ref={w2Ref}
                 canSleep={false}
                 gravityScale={5}
                 linearDamping={3}
                 angularDamping={5}
+            // enabledRotations={[true, true, false]}
+            // sensor
             >
                 {/* <CuboidCollider args={[1,1,1]}/> */}
                 <group scale={0.2 / 15}>
