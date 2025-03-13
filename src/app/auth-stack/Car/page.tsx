@@ -10,7 +10,7 @@ const Drei = () => {
     return (
         <div className="h-full w-[100%] relative flex justify-center items-start">
             <Canvas className="bg-black" shadows>
-                <Physics >
+                <Physics>
                   <Scene/>
                 </Physics>
             </Canvas>

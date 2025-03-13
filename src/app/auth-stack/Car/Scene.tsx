@@ -15,7 +15,9 @@ const Scene = () => {
     const w3Ref = useRef<any>();
     const w4Ref = useRef<any>();
     const cameraRef = useRef<any>();
-
+    const stoper1Ref = useRef<any>();
+    const stoper2Ref = useRef<any>();
+    
     const carBody = useGLTF('/modals/jeep.glb');
     const wheel = useGLTF('/modals/tyre.glb');
     const wheel1 = wheel.scene.clone();
@@ -23,6 +25,7 @@ const Scene = () => {
     const wheel3 = wheel.scene.clone();
     const wheel4 = wheel.scene.clone();
 
+    const[dropCar,setDropCar]=useState(false);
     // rod 1 
     useRevoluteJoint(
         carBodyRef,
@@ -33,6 +36,15 @@ const Scene = () => {
             [0, 1, 0], // Rotation axis (Y-axis)
         ]
     );
+
+    // useSpringJoint(carBodyRef, rod1Ref, [
+    //     new THREE.Vector3(-2.5, -1.2, -3), // Anchor point on the first body (box)
+    //     new THREE.Vector3(-0.4, 0, 0), // Anchor point on the second body (sphere) but it's don't change the second body postion 
+    //     0.1, // Rest length of the spring
+    //     300, // Stiffness (spring strength)
+    //     3000, //  resistance Damping 
+    // ]);
+
 
     // front right
     useRevoluteJoint(
@@ -59,7 +71,7 @@ const Scene = () => {
         carBodyRef,
         w3Ref,
         [
-            [-1.1, -1.2, -3.33], // Rotate point from parant 
+            [-1.1, -1.3, -3.33], // Rotate point from parant 
             [0.1, 0, 0], // Position of chid
             [1, 0, 0], // Rotation axis (Y-axis)
         ]
@@ -69,17 +81,41 @@ const Scene = () => {
         carBodyRef,
         w4Ref,
         [
-            [1.1, -1.2, -3.33], // Rotate point from parant 
+            [1.1, -1.3, -3.33], // Rotate point from parant 
             [-0.1, 0, 0], // Position of chid
             [1, 0, 0], // Rotation axis (Y-axis)
         ]
     );
+    // rotation stoper 1
+    useFixedJoint(stoper1Ref,carBodyRef ,[ //second ref is parent if it's move then handle ref will be move
+            [-0.1, 0.8, -0.4], // body1Anchor (top of the handle)
+            [0, 0, 0, 1], // body1LocalFrame (no rotation)
+            [0, -0.50, 0], // body2Anchor (bottom of the hammerhead)
+            [0, 0, 0, 1], // body2LocalFrame (no rotation)
+    ]);
+    useFixedJoint(stoper2Ref,carBodyRef ,[ //second ref is parent if it's move then handle ref will be move
+        [0.1, 0.8, 0.4], // body1Anchor (top of the handle)
+        [0, 0, 0, 1], // body1LocalFrame (no rotation)
+        [0, -0.50, 0], // body2Anchor (bottom of the hammerhead)
+        [0, 0, 0, 1], // body2LocalFrame (no rotation)
+]);
 
-    // useFrame(() => {
-    //     const pos =carBodyRef.current.translation();
-    //     cameraRef.current.position.lerp({ x: pos.x , y: pos.y+3, z: pos.z-10 }, 0.1)
-    //     cameraRef.current.lookAt(pos.x, pos.y, pos.z)
-    // })
+    useEffect(()=>{
+        setTimeout(()=>{
+         setDropCar(true)
+        },2000)
+    },[])
+
+
+    useFrame(() => {
+        console.clear()
+        console.log(rod1Ref.current.rotation());
+        rod1Ref.current?.applyTorqueImpulse({ x: 0, y: -1.6, z: 0 })
+        rod1Ref.current?.applyTorqueImpulse({ x: 0, y: 1.5, z: 0 })
+        // const pos =carBodyRef.current.translation();
+        // cameraRef.current.position.lerp({ x: pos.x , y: pos.y+3, z: pos.z-10 }, 0.1)
+        // cameraRef.current.lookAt(pos.x, pos.y, pos.z)
+    })
     return (<>
         <OrbitControls />
         <PerspectiveCamera ref={cameraRef} makeDefault position={[0, 8, 15]} rotation={[0, 2, 0]} />
@@ -88,7 +124,7 @@ const Scene = () => {
         <pointLight intensity={120} position={[0, 5, 2]} castShadow color={'#0aaef5'} />
 
         {carBody.scene && (
-            <RigidBody angularDamping={100} name="car" friction={0} type="dynamic" position={[0, 5, 0]} colliders="trimesh" ref={carBodyRef} gravityScale={5}
+            <RigidBody angularDamping={100} name="car" friction={0} type={dropCar?"dynamic":"fixed"} colliders="trimesh" position={[0, 5, 0]} ref={carBodyRef} gravityScale={5}
                 canSleep={false}
             >
                 {/* <CuboidCollider args={[1,1,1]}/> */}
@@ -100,19 +136,32 @@ const Scene = () => {
                 </group>
             </RigidBody>
         )}
-        
+
+        {/*wheel rod */}
         <RigidBody
             ref={rod1Ref}
             angularDamping={105}
             position={[0, 3, 0]}
-            sensor
+            // sensor
             canSleep={false}
             enabledRotations={[false, true, false]}
         >
-            <mesh onClick={() => { rod1Ref.current?.applyTorqueImpulse({ x: 0, y: 10, z: 0 }) }}>
-                <boxGeometry args={[0.5, 0.1, 0.5]} />
+            <mesh onClick={() => { }}>
+                <boxGeometry args={[0.7, 0.1, 0.5]} />
                 <meshStandardMaterial color="white" />
             </mesh>
+        </RigidBody>
+
+        {/* stpoer 1 */}
+
+        <RigidBody position={[0, 2, 0]} type="dynamic" ref={stoper1Ref} mass={800}>
+            <CuboidCollider args={[0.1, 0.2, 0.1]} />
+        </RigidBody>
+
+        {/* stpoer 2 */}
+
+        <RigidBody position={[0, 2, 0]} type="dynamic" ref={stoper2Ref} mass={800}>
+            <CuboidCollider args={[0.1, 0.2, 0.1]} />
         </RigidBody>
 
         {wheel1 && (
