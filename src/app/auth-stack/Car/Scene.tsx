@@ -88,13 +88,14 @@ const Scene = () => {
     );
     // rotation stoper 1
     useFixedJoint(stoper1Ref,carBodyRef ,[ //second ref is parent if it's move then handle ref will be move
-            [-0.1, 0.8, -0.4], // body1Anchor (top of the handle)
+            [0.1, 0.8, -0.5], // body1Anchor (top of the handle)
             [0, 0, 0, 1], // body1LocalFrame (no rotation)
             [0, -0.50, 0], // body2Anchor (bottom of the hammerhead)
             [0, 0, 0, 1], // body2LocalFrame (no rotation)
     ]);
+    // rotation stoper 2
     useFixedJoint(stoper2Ref,carBodyRef ,[ //second ref is parent if it's move then handle ref will be move
-        [0.1, 0.8, 0.4], // body1Anchor (top of the handle)
+        [0.1, 0.8, 0.46], // body1Anchor (top of the handle)
         [0, 0, 0, 1], // body1LocalFrame (no rotation)
         [0, -0.50, 0], // body2Anchor (bottom of the hammerhead)
         [0, 0, 0, 1], // body2LocalFrame (no rotation)
@@ -110,23 +111,27 @@ const Scene = () => {
     useFrame(() => {
         console.clear()
         console.log(rod1Ref.current.rotation());
-        rod1Ref.current?.applyTorqueImpulse({ x: 0, y: -1.6, z: 0 })
-        rod1Ref.current?.applyTorqueImpulse({ x: 0, y: 1.5, z: 0 })
+        rod1Ref.current?.applyTorqueImpulse({ x: 0, y: -2.6, z: 0 })
+        rod1Ref.current?.applyTorqueImpulse({ x: 0, y: 2.5, z: 0 })
+
+
         // const pos =carBodyRef.current.translation();
         // cameraRef.current.position.lerp({ x: pos.x , y: pos.y+3, z: pos.z-10 }, 0.1)
         // cameraRef.current.lookAt(pos.x, pos.y, pos.z)
     })
     return (<>
         <OrbitControls />
-        <PerspectiveCamera ref={cameraRef} makeDefault position={[0, 8, 15]} rotation={[0, 2, 0]} />
+        
         <ambientLight intensity={0.5} />
         <pointLight intensity={80} position={[0, 5, -2]} castShadow color={'red'} />
         <pointLight intensity={120} position={[0, 5, 2]} castShadow color={'#0aaef5'} />
 
+        <PerspectiveCamera ref={cameraRef} makeDefault position={[0, 8, -15]} rotation={[0, 2, 0]} />
         {carBody.scene && (
             <RigidBody angularDamping={100} name="car" friction={0} type={dropCar?"dynamic":"fixed"} colliders="trimesh" position={[0, 5, 0]} ref={carBodyRef} gravityScale={5}
                 canSleep={false}
             >
+                 <pointLight intensity={50} position={[0, 5, -2]} castShadow color={'red'} />
                 {/* <CuboidCollider args={[1,1,1]}/> */}
                 <group onClick={() => {
                     w3Ref.current?.applyTorqueImpulse({ x: 10, y: 0, z: 0 });
