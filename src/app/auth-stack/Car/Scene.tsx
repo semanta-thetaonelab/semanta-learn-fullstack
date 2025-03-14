@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
 
 import * as THREE from "three"
-import { Box, Capsule, OrbitControls, PerspectiveCamera, useGLTF, } from "@react-three/drei";
+import { Box, Capsule, OrbitControls, PerspectiveCamera, useGLTF, useKeyboardControls, } from "@react-three/drei";
 import { CapsuleCollider, CuboidCollider, RapierRigidBody, RigidBody, useFixedJoint, useRevoluteJoint, useSpringJoint } from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
 
@@ -18,15 +18,18 @@ const Scene = () => {
     const stoper1Ref = useRef<any>();
     const stoper2Ref = useRef<any>();
     
+    const [size,setSize]=useState(0.2);
+
     const carBody = useGLTF('/modals/jeep.glb');
     const wheel = useGLTF('/modals/tyre.glb');
+
     const wheel1 = wheel.scene.clone();
     const wheel2 = wheel.scene.clone();
     const wheel3 = wheel.scene.clone();
     const wheel4 = wheel.scene.clone();
 
     const[dropCar,setDropCar]=useState(false);
-    // rod 1 
+    // wheel rod
     useRevoluteJoint(
         carBodyRef,
         rod1Ref,
@@ -44,7 +47,6 @@ const Scene = () => {
     //     300, // Stiffness (spring strength)
     //     3000, //  resistance Damping 
     // ]);
-
 
     // front right
     useRevoluteJoint(
@@ -88,14 +90,14 @@ const Scene = () => {
     );
     // rotation stoper 1
     useFixedJoint(stoper1Ref,carBodyRef ,[ //second ref is parent if it's move then handle ref will be move
-            [0.1, 0.8, -0.5], // body1Anchor (top of the handle)
+            [0.2, 0.8, 0.5], // body1Anchor (top of the handle)
             [0, 0, 0, 1], // body1LocalFrame (no rotation)
             [0, -0.50, 0], // body2Anchor (bottom of the hammerhead)
             [0, 0, 0, 1], // body2LocalFrame (no rotation)
     ]);
     // rotation stoper 2
     useFixedJoint(stoper2Ref,carBodyRef ,[ //second ref is parent if it's move then handle ref will be move
-        [0.1, 0.8, 0.46], // body1Anchor (top of the handle)
+        [-0.2, 0.8, 0.5], // body1Anchor (top of the handle)
         [0, 0, 0, 1], // body1LocalFrame (no rotation)
         [0, -0.50, 0], // body2Anchor (bottom of the hammerhead)
         [0, 0, 0, 1], // body2LocalFrame (no rotation)
@@ -103,16 +105,37 @@ const Scene = () => {
 
     useEffect(()=>{
         setTimeout(()=>{
-         setDropCar(true)
+         setDropCar(true);
         },2000)
     },[])
+
+        const forward = useKeyboardControls((state) => state.forward);
+        const backward = useKeyboardControls((state) => state.backward);
+        const left = useKeyboardControls((state) => state.left);
+        const right = useKeyboardControls((state) => state.right);
 
 
     useFrame(() => {
         console.clear()
-        console.log(rod1Ref.current.rotation());
-        rod1Ref.current?.applyTorqueImpulse({ x: 0, y: -2.6, z: 0 })
-        rod1Ref.current?.applyTorqueImpulse({ x: 0, y: 2.5, z: 0 })
+        // console.log(rod1Ref.current.rotation());
+        console.log("up=>",forward,"down=>",backward,"right=>",right,"left=>",left);
+        if(right){
+
+        }else if(left){
+
+        }
+
+         if(forward){
+            w3Ref.current?.applyTorqueImpulse({ x: 10, y: 0, z: 0 });
+            w4Ref.current?.applyTorqueImpulse({ x: 10, y: 0, z: 0 });
+        }else if(backward){
+            w3Ref.current?.applyTorqueImpulse({ x: -10, y: 0, z: 0 });
+            w4Ref.current?.applyTorqueImpulse({ x: -10, y: 0, z: 0 });
+
+        }
+
+        // rod1Ref.current?.applyTorqueImpulse({ x: 0, y: -10.1, z: 0 }) // right
+        // rod1Ref.current?.applyTorqueImpulse({ x: 0, y: 10.1, z: 0 }) // left
 
 
         // const pos =carBodyRef.current.translation();
@@ -126,17 +149,14 @@ const Scene = () => {
         <pointLight intensity={80} position={[0, 5, -2]} castShadow color={'red'} />
         <pointLight intensity={120} position={[0, 5, 2]} castShadow color={'#0aaef5'} />
 
-        <PerspectiveCamera ref={cameraRef} makeDefault position={[0, 8, -15]} rotation={[0, 2, 0]} />
+        <PerspectiveCamera ref={cameraRef} makeDefault position={[0, 5, 15]} rotation={[0, 2, 0]} />
         {carBody.scene && (
             <RigidBody angularDamping={100} name="car" friction={0} type={dropCar?"dynamic":"fixed"} colliders="trimesh" position={[0, 5, 0]} ref={carBodyRef} gravityScale={5}
-                canSleep={false}
+
             >
-                 <pointLight intensity={50} position={[0, 5, -2]} castShadow color={'red'} />
+                 <pointLight intensity={100} position={[0, 5, -2]} castShadow color={'white'} />
                 {/* <CuboidCollider args={[1,1,1]}/> */}
-                <group onClick={() => {
-                    w3Ref.current?.applyTorqueImpulse({ x: 10, y: 0, z: 0 });
-                    w4Ref.current?.applyTorqueImpulse({ x: 10, y: 0, z: 0 });
-                }}>
+                <group>
                     <primitive object={carBody.scene} />
                 </group>
             </RigidBody>
@@ -145,34 +165,35 @@ const Scene = () => {
         {/*wheel rod */}
         <RigidBody
             ref={rod1Ref}
-            angularDamping={105}
+            angularDamping={10}
             position={[0, 3, 0]}
             // sensor
             canSleep={false}
             enabledRotations={[false, true, false]}
+            density={9000}
         >
             <mesh onClick={() => { }}>
-                <boxGeometry args={[0.7, 0.1, 0.5]} />
+                <boxGeometry args={[0.9, 0.1, 0.5]} />
                 <meshStandardMaterial color="white" />
             </mesh>
         </RigidBody>
 
         {/* stpoer 1 */}
 
-        <RigidBody position={[0, 2, 0]} type="dynamic" ref={stoper1Ref} mass={800}>
-            <CuboidCollider args={[0.1, 0.2, 0.1]} />
+        <RigidBody position={[0, 2, 5]} type="dynamic" ref={stoper1Ref} density={100}>
+            <CuboidCollider args={[0.1, 0.2, 0.25]} />
         </RigidBody>
 
         {/* stpoer 2 */}
 
-        <RigidBody position={[0, 2, 0]} type="dynamic" ref={stoper2Ref} mass={800}>
+        <RigidBody position={[0, 2, 0]} type="dynamic" ref={stoper2Ref} density={100}>
             <CuboidCollider args={[0.1, 0.2, 0.1]} />
         </RigidBody>
 
         {wheel1 && (
             <RigidBody
                 type="dynamic"
-                position={[-1.5, 5, 0]}
+                position={[-1.5, 3, 0]}
                 colliders="ball"
                 ref={w1Ref}
                 canSleep={false}
@@ -190,7 +211,7 @@ const Scene = () => {
         {wheel2 && (
             <RigidBody
                 type="dynamic"
-                position={[1.5, 5, 0]}
+                position={[1.5, 3, 0]}
                 colliders="ball"
                 ref={w2Ref}
                 canSleep={false}
@@ -240,7 +261,7 @@ const Scene = () => {
             </RigidBody>
         )}
 
-        <RigidBody type="fixed" density={200}>
+        <RigidBody type="fixed" density={200} friction={2}>
             <mesh scale={[125, 1, 125]} receiveShadow>
                 <boxGeometry />
                 <meshStandardMaterial color={'yellow'} side={THREE.DoubleSide} />
