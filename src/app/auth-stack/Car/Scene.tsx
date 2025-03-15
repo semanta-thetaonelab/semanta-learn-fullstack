@@ -20,7 +20,8 @@ const Scene = () => {
 
     const [stoper1Size, setStoper1Size] = useState(0.24);
     const [stoper2Size, setStoper2Size] = useState(0.24);
-    const [rocks,setRocks] = useState<any[]>()
+    const [rocks, setRocks] = useState<any[]>();
+    const [houses,setHouses]=useState<any[]>();
 
     const AutumnPineTree = useGLTF('/modals/Autumn pine.glb');
     const AutumnNormalTree = useGLTF('/modals/Autumn Tree.glb');
@@ -28,6 +29,8 @@ const Scene = () => {
     // const TreeRock = useGLTF ('/modals/Trees Rock.glb')
     const carBody = useGLTF('/modals/jeep.glb');
     const wheel = useGLTF('/modals/tyre.glb');
+
+    const House = useGLTF('/modals/House.glb');
 
     const wheel1 = wheel.scene.clone();
     const wheel2 = wheel.scene.clone();
@@ -115,11 +118,14 @@ const Scene = () => {
         }, 2000)
     }, [])
 
-    useEffect(()=>{
-        setTimeout(()=>{
+    useEffect(() => {
+        setTimeout(() => {
             addRock();
-        },1500)
-    },[])
+        }, 1500)
+        setTimeout(()=>{
+            aadHouses();
+        },2500)
+    }, [])
 
     const forward = useKeyboardControls((state) => state.forward);
     const backward = useKeyboardControls((state) => state.backward);
@@ -157,27 +163,28 @@ const Scene = () => {
 
         }
 
-        const rotation = carBodyRef.current.rotation();
-        const pos = carBodyRef.current.translation();
-        cameraRef.current.position.lerp({ x: pos.x, y: pos.y + 8, z: rotation.y +30 }, 0.1)
-        cameraRef.current.lookAt(pos.x, pos.y, pos.z)
+        // const rotation = carBodyRef.current.rotation();
+        // const pos = carBodyRef.current.translation();
+        // cameraRef.current.position.lerp({ x: pos.x, y: pos.y + 8, z: rotation.y +30 }, 0.1)
+        // cameraRef.current.lookAt(pos.x, pos.y, pos.z)
     })
-    const rendomElement = () =>{
-        return Math.floor(Math.random()*2);
+    const rendomElement = () => {
+        return Math.floor(Math.random() * 2);
     }
 
-    const addRock = async() => {
+    const addRock = async () => {
         const ele: any[] = [];
-        
-        for (let i = 0; i < 60; i++) {
-            const nag=Math.floor(Math.random()*2);
-            const clone =await rendomElement() ? Rock.scene.clone() : AutumnPineTree.scene.clone();
+
+        for (let i = 0; i < 100; i++) {
+            const nag = Math.floor(Math.random() * 2);
+            const clone = await rendomElement() ? Rock.scene.clone() : AutumnPineTree.scene.clone();
             ele.push(
-                <RigidBody density={5000} name="rock" type="kinematicPosition" colliders="hull" 
-                 position={[
-                    nag?Math.floor(Math.random() * (-600 - 5 + 1)) + -5:Math.floor(Math.random() * (600 - 5 + 1)) + 5, 
-                    1.7, 
-                    Math.floor(Math.random() * (500 - 5 + 1)) + 5]}
+                <RigidBody density={5000} name="rock" type="kinematicPosition" colliders="hull"
+                    position={[
+                        rendomElement() ? Math.floor(Math.random() * (-400 - 5 + 1)) + -5 : Math.floor(Math.random() * (400 - 5 + 1)) + 5,
+                        1.7,
+                        rendomElement() ? Math.floor(Math.random() * (-400 - 5 + 1)) + -5 : Math.floor(Math.random() * (400 - 5 + 1)) + 5,
+                    ]}
                 >
                     {/* <pointLight intensity={100}  position={[0, 4, -2]} castShadow color={'white'} /> */}
                     <group scale={2}>
@@ -190,6 +197,29 @@ const Scene = () => {
 
     }
 
+    const aadHouses=()=>{
+        const ele:any[]=[];
+        const clone = House.scene.clone();
+
+        for(let i=0 ; i<30 ; i++){
+            ele.push(
+                <RigidBody sensor name="House" type="kinematicPosition" colliders="hull" 
+                position={[
+                    rendomElement() ? -(Math.floor(Math.random() * (450 - 5 + 1)) + 405) : Math.floor(Math.random() * (450 - 5 + 1)) + 405,
+                    1.7,
+                    rendomElement() ? -(Math.floor(Math.random() * (450 - 5 + 1)) + 405) : Math.floor(Math.random() * (450 - 5 + 1)) + 405,
+                ]}
+                >
+                {/* <CuboidCollider args={[1,1,1]}/> */}
+                <group scale={15}>
+                    <primitive object={clone}/>
+                </group>
+            </RigidBody>
+            )
+        }
+        setHouses(ele);
+    }
+
     return (<>
         <OrbitControls />
 
@@ -197,9 +227,9 @@ const Scene = () => {
         <pointLight intensity={80} position={[0, 5, -2]} castShadow color={'red'} />
         {/* <pointLight intensity={120} position={[0, 5, 2]} castShadow color={'#0aaef5'} /> */}
         {/* <pointLight intensity={5020} position={[0, 20, 2]} castShadow color={'#0aaef5'} /> */}
-        
+
         <RigidBody>
-         <PerspectiveCamera ref={cameraRef} makeDefault position={[0, 5, -15]} rotation={[0, 2, 0]} />
+            <PerspectiveCamera ref={cameraRef} makeDefault position={[0, 5, -15]} rotation={[0, 2, 0]} />
         </RigidBody>
         {carBody.scene && (
             <RigidBody angularDamping={100} name="car" friction={0} type={dropCar ? "dynamic" : "fixed"} colliders="trimesh" position={[0, 5, 0]} ref={carBodyRef} gravityScale={2}
@@ -271,8 +301,8 @@ const Scene = () => {
                 ref={w2Ref}
                 gravityScale={2}
                 canSleep={false}
-                // linearDamping={3}
-                // angularDamping={5}
+            // linearDamping={3}
+            // angularDamping={5}
             // enabledRotations={[true, true, false]}
             // sensor
             >
@@ -293,9 +323,9 @@ const Scene = () => {
                 ref={w3Ref}
                 gravityScale={2}
                 friction={10}
-                // linearDamping={3}
-                // angularDamping={5}
-                // enabledRotations={[true, false, false]}
+            // linearDamping={3}
+            // angularDamping={5}
+            // enabledRotations={[true, false, false]}
             >
                 <group scale={0.2 / 15}>
                     <primitive object={wheel3} />
@@ -314,14 +344,17 @@ const Scene = () => {
                 // angularDamping={5}
                 density={50}
                 friction={10}
-                // enabledRotations={[true, false, false]}
+            // enabledRotations={[true, false, false]}
             >
                 <group scale={0.2 / 15}>
                     <primitive object={wheel4} />
                 </group>
             </RigidBody>
         )}
-         {rocks?.map((rock)=>(rock))}
+
+        {rocks?.map((rock) => (rock))}
+        {houses?.map((house) => (house))}
+
         <RigidBody type="fixed" density={200} friction={0.5}>
             <mesh scale={[50025, 1, 50025]} receiveShadow>
                 <boxGeometry />
