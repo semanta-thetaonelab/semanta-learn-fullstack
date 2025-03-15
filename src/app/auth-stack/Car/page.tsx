@@ -16,9 +16,10 @@ const Drei = () => {
                     { name: "backward", keys: ["s", "ArrowDown"] },
                     { name: "left", keys: ["a", "ArrowLeft"] },
                     { name: "right", keys: ["d", "ArrowRight"] },
+                    { name: "break", keys: [" "] },
                 ]}
             >
-                <Canvas className="bg-black">
+                <Canvas className="bg-black" shadows>
                     <Physics>
                     <Scene/>
                     </Physics>

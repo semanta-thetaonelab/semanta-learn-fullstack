@@ -17,9 +17,15 @@ const Scene = () => {
     const cameraRef = useRef<any>();
     const stoper1Ref = useRef<any>();
     const stoper2Ref = useRef<any>();
-    
-    const [size,setSize]=useState(0.2);
 
+    const [stoper1Size, setStoper1Size] = useState(0.24);
+    const [stoper2Size, setStoper2Size] = useState(0.24);
+    const [rocks,setRocks] = useState<any[]>()
+
+    const AutumnPineTree = useGLTF('/modals/Autumn pine.glb');
+    const AutumnNormalTree = useGLTF('/modals/Autumn Tree.glb');
+    const Rock = useGLTF('/modals/Rock.glb');
+    // const TreeRock = useGLTF ('/modals/Trees Rock.glb')
     const carBody = useGLTF('/modals/jeep.glb');
     const wheel = useGLTF('/modals/tyre.glb');
 
@@ -28,7 +34,7 @@ const Scene = () => {
     const wheel3 = wheel.scene.clone();
     const wheel4 = wheel.scene.clone();
 
-    const[dropCar,setDropCar]=useState(false);
+    const [dropCar, setDropCar] = useState(false);
     // wheel rod
     useRevoluteJoint(
         carBodyRef,
@@ -89,72 +95,117 @@ const Scene = () => {
         ]
     );
     // rotation stoper 1
-    useFixedJoint(stoper1Ref,carBodyRef ,[ //second ref is parent if it's move then handle ref will be move
-            [0.2, 0.8, 0.5], // body1Anchor (top of the handle)
-            [0, 0, 0, 1], // body1LocalFrame (no rotation)
-            [0, -0.50, 0], // body2Anchor (bottom of the hammerhead)
-            [0, 0, 0, 1], // body2LocalFrame (no rotation)
+    useFixedJoint(stoper1Ref, carBodyRef, [ //second ref is parent if it's move then handle ref will be move
+        [0.2, 0.8, 0.5], // body1Anchor (top of the handle)
+        [0, 0, 0, 1], // body1LocalFrame (no rotation)
+        [0, -0.50, 0], // body2Anchor (bottom of the hammerhead)
+        [0, 0, 0, 1], // body2LocalFrame (no rotation)
     ]);
     // rotation stoper 2
-    useFixedJoint(stoper2Ref,carBodyRef ,[ //second ref is parent if it's move then handle ref will be move
+    useFixedJoint(stoper2Ref, carBodyRef, [ //second ref is parent if it's move then handle ref will be move
         [-0.2, 0.8, 0.5], // body1Anchor (top of the handle)
         [0, 0, 0, 1], // body1LocalFrame (no rotation)
         [0, -0.50, 0], // body2Anchor (bottom of the hammerhead)
         [0, 0, 0, 1], // body2LocalFrame (no rotation)
-]);
+    ]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setDropCar(true);
+        }, 2000)
+    }, [])
 
     useEffect(()=>{
         setTimeout(()=>{
-         setDropCar(true);
-        },2000)
+            addRock();
+        },1500)
     },[])
 
-        const forward = useKeyboardControls((state) => state.forward);
-        const backward = useKeyboardControls((state) => state.backward);
-        const left = useKeyboardControls((state) => state.left);
-        const right = useKeyboardControls((state) => state.right);
-
+    const forward = useKeyboardControls((state) => state.forward);
+    const backward = useKeyboardControls((state) => state.backward);
+    const left = useKeyboardControls((state) => state.left);
+    const right = useKeyboardControls((state) => state.right);
+    const hardBreak = useKeyboardControls((state) => state.break);
 
     useFrame(() => {
-        console.clear()
-        // console.log(rod1Ref.current.rotation());
-        console.log("up=>",forward,"down=>",backward,"right=>",right,"left=>",left);
-        if(right){
+        if (!right && !left) {
+            setStoper1Size(0.24);
+            setStoper2Size(0.24);
+        } else if (right) {
+            setStoper1Size(0.1);
+            setStoper2Size(0.29);
+        } else if (left) {
+            setStoper2Size(0.1);
+            setStoper1Size(0.29);
+        }
 
-        }else if(left){
+        if (forward) {
+            const localDirection = new THREE.Vector3();
+            const rotation = carBodyRef.current.rotation();
+            localDirection.set(0, 0, 50.5); // Forward direction in local space
+            localDirection.applyQuaternion(rotation); // Apply the object's rotation to move in local space
+            carBodyRef.current.applyImpulse(localDirection);
+
+            // w3Ref.current?.applyTorqueImpulse({ x: 10, y: 0, z: 0 });
+            // w4Ref.current?.applyTorqueImpulse({ x: 10, y: 0, z: 0 });
+        } else if (backward) {
+            const localDirection = new THREE.Vector3();
+            const rotation = carBodyRef.current.rotation();
+            localDirection.set(0, 0, -50.5); // Forward direction in local space
+            localDirection.applyQuaternion(rotation); // Apply the object's rotation to move in local space
+            carBodyRef.current.applyImpulse(localDirection);
 
         }
 
-         if(forward){
-            w3Ref.current?.applyTorqueImpulse({ x: 10, y: 0, z: 0 });
-            w4Ref.current?.applyTorqueImpulse({ x: 10, y: 0, z: 0 });
-        }else if(backward){
-            w3Ref.current?.applyTorqueImpulse({ x: -10, y: 0, z: 0 });
-            w4Ref.current?.applyTorqueImpulse({ x: -10, y: 0, z: 0 });
-
-        }
-
-        // rod1Ref.current?.applyTorqueImpulse({ x: 0, y: -10.1, z: 0 }) // right
-        // rod1Ref.current?.applyTorqueImpulse({ x: 0, y: 10.1, z: 0 }) // left
-
-
-        // const pos =carBodyRef.current.translation();
-        // cameraRef.current.position.lerp({ x: pos.x , y: pos.y+3, z: pos.z-10 }, 0.1)
-        // cameraRef.current.lookAt(pos.x, pos.y, pos.z)
+        const rotation = carBodyRef.current.rotation();
+        const pos = carBodyRef.current.translation();
+        cameraRef.current.position.lerp({ x: pos.x, y: pos.y + 8, z: rotation.y +30 }, 0.1)
+        cameraRef.current.lookAt(pos.x, pos.y, pos.z)
     })
+    const rendomElement = () =>{
+        return Math.floor(Math.random()*2);
+    }
+
+    const addRock = async() => {
+        const ele: any[] = [];
+        
+        for (let i = 0; i < 60; i++) {
+            const nag=Math.floor(Math.random()*2);
+            const clone =await rendomElement() ? Rock.scene.clone() : AutumnPineTree.scene.clone();
+            ele.push(
+                <RigidBody density={5000} name="rock" type="kinematicPosition" colliders="hull" 
+                 position={[
+                    nag?Math.floor(Math.random() * (-600 - 5 + 1)) + -5:Math.floor(Math.random() * (600 - 5 + 1)) + 5, 
+                    1.7, 
+                    Math.floor(Math.random() * (500 - 5 + 1)) + 5]}
+                >
+                    {/* <pointLight intensity={100}  position={[0, 4, -2]} castShadow color={'white'} /> */}
+                    <group scale={2}>
+                        <primitive object={clone} />
+                    </group>
+                </RigidBody>
+            )
+        }
+        setRocks(ele);
+
+    }
+
     return (<>
         <OrbitControls />
-        
-        <ambientLight intensity={0.5} />
-        <pointLight intensity={80} position={[0, 5, -2]} castShadow color={'red'} />
-        <pointLight intensity={120} position={[0, 5, 2]} castShadow color={'#0aaef5'} />
 
-        <PerspectiveCamera ref={cameraRef} makeDefault position={[0, 5, 15]} rotation={[0, 2, 0]} />
+        <ambientLight intensity={2} />
+        <pointLight intensity={80} position={[0, 5, -2]} castShadow color={'red'} />
+        {/* <pointLight intensity={120} position={[0, 5, 2]} castShadow color={'#0aaef5'} /> */}
+        {/* <pointLight intensity={5020} position={[0, 20, 2]} castShadow color={'#0aaef5'} /> */}
+        
+        <RigidBody>
+         <PerspectiveCamera ref={cameraRef} makeDefault position={[0, 5, -15]} rotation={[0, 2, 0]} />
+        </RigidBody>
         {carBody.scene && (
-            <RigidBody angularDamping={100} name="car" friction={0} type={dropCar?"dynamic":"fixed"} colliders="trimesh" position={[0, 5, 0]} ref={carBodyRef} gravityScale={5}
+            <RigidBody angularDamping={100} name="car" friction={0} type={dropCar ? "dynamic" : "fixed"} colliders="trimesh" position={[0, 5, 0]} ref={carBodyRef} gravityScale={2}
 
             >
-                 <pointLight intensity={100} position={[0, 5, -2]} castShadow color={'white'} />
+                <pointLight intensity={100} position={[0, 5, -2]} castShadow color={'white'} />
                 {/* <CuboidCollider args={[1,1,1]}/> */}
                 <group>
                     <primitive object={carBody.scene} />
@@ -181,13 +232,13 @@ const Scene = () => {
         {/* stpoer 1 */}
 
         <RigidBody position={[0, 2, 5]} type="dynamic" ref={stoper1Ref} density={100}>
-            <CuboidCollider args={[0.1, 0.2, 0.25]} />
+            <CuboidCollider args={[0.1, 0.2, stoper1Size]} />
         </RigidBody>
 
         {/* stpoer 2 */}
 
         <RigidBody position={[0, 2, 0]} type="dynamic" ref={stoper2Ref} density={100}>
-            <CuboidCollider args={[0.1, 0.2, 0.1]} />
+            <CuboidCollider args={[0.1, 0.2, stoper2Size]} />
         </RigidBody>
 
         {wheel1 && (
@@ -195,11 +246,13 @@ const Scene = () => {
                 type="dynamic"
                 position={[-1.5, 3, 0]}
                 colliders="ball"
+                density={50}
                 ref={w1Ref}
+                gravityScale={2}
+                // linearDamping={3}
+                // angularDamping={5}
                 canSleep={false}
-                gravityScale={5}
-                linearDamping={3}
-                angularDamping={5}
+                friction={12}
             // sensor
             >
                 {/* <CuboidCollider args={[1,1,1]}/> */}
@@ -210,14 +263,16 @@ const Scene = () => {
         )}
         {wheel2 && (
             <RigidBody
+                friction={12}
+                density={50}
                 type="dynamic"
                 position={[1.5, 3, 0]}
                 colliders="ball"
                 ref={w2Ref}
+                gravityScale={2}
                 canSleep={false}
-                gravityScale={5}
-                linearDamping={3}
-                angularDamping={5}
+                // linearDamping={3}
+                // angularDamping={5}
             // enabledRotations={[true, true, false]}
             // sensor
             >
@@ -230,14 +285,17 @@ const Scene = () => {
 
         {wheel3 && (
             <RigidBody
+                density={50}
                 type="dynamic"
                 position={[-1.5, 3, -3]}
                 colliders="ball"
-                ref={w3Ref}
                 canSleep={false}
-                gravityScale={5}
-                linearDamping={3}
-                angularDamping={5}
+                ref={w3Ref}
+                gravityScale={2}
+                friction={10}
+                // linearDamping={3}
+                // angularDamping={5}
+                // enabledRotations={[true, false, false]}
             >
                 <group scale={0.2 / 15}>
                     <primitive object={wheel3} />
@@ -251,24 +309,28 @@ const Scene = () => {
                 colliders="ball"
                 ref={w4Ref}
                 canSleep={false}
-                gravityScale={5}
-                linearDamping={3}
-                angularDamping={5}
+                gravityScale={2}
+                // linearDamping={3}
+                // angularDamping={5}
+                density={50}
+                friction={10}
+                // enabledRotations={[true, false, false]}
             >
                 <group scale={0.2 / 15}>
                     <primitive object={wheel4} />
                 </group>
             </RigidBody>
         )}
-
-        <RigidBody type="fixed" density={200} friction={2}>
-            <mesh scale={[125, 1, 125]} receiveShadow>
+         {rocks?.map((rock)=>(rock))}
+        <RigidBody type="fixed" density={200} friction={0.5}>
+            <mesh scale={[50025, 1, 50025]} receiveShadow>
                 <boxGeometry />
-                <meshStandardMaterial color={'yellow'} side={THREE.DoubleSide} />
+                <meshStandardMaterial color={'#07a809'} side={THREE.DoubleSide} />
             </mesh>
         </RigidBody>
     </>)
 }
+useGLTF.preload('/modals/Rock.glb');
 useGLTF.preload('/modals/jeep.glb');
 useGLTF.preload('/modals/tyre.glb');
 export default Scene;
