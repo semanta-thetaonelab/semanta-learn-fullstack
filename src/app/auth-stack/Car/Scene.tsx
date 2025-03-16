@@ -29,7 +29,7 @@ const Scene = () => {
     // const TreeRock = useGLTF ('/modals/Trees Rock.glb')
     const carBody = useGLTF('/modals/jeep.glb');
     const wheel = useGLTF('/modals/tyre.glb');
-
+    const ramp1 = useGLTF('/modals/ramp1.glb');
     const House = useGLTF('/modals/House.glb');
 
     const wheel1 = wheel.scene.clone();
@@ -163,10 +163,26 @@ const Scene = () => {
 
         }
 
+        const carPosition = carBodyRef.current.translation(); // Get car position
+        const carRotation = carBodyRef.current.rotation(); // Get car rotation
+
+        // Offset the camera behind the car
+        const offset = new THREE.Vector3(0, 5, -15); // Adjust height (Y) & distance (Z)
+        offset.applyQuaternion(carRotation); // Apply car's rotation to offset
+
+        // Target position for the camera
+        const targetPosition = new THREE.Vector3().copy(carPosition).add(offset);
+
+        // Smoothly move the camera to the target position
+        cameraRef.current.position.lerp(targetPosition, 0.15);
+
+        // Make camera look at the car
+        cameraRef.current.lookAt(carPosition.x, carPosition.y, carPosition.z);
+
         // const rotation = carBodyRef.current.rotation();
-        const pos = carBodyRef.current.translation();
-        cameraRef.current.position.lerp({ x: pos.x, y: pos.y + 8, z: pos.z - 40 }, 0.1)
-        cameraRef.current.lookAt(pos.x, pos.y, pos.z)
+        // const pos = carBodyRef.current.translation();
+        // cameraRef.current.position.lerp({ x: pos.x, y: pos.y + 8, z: pos.z - 40 }, 0.1)
+        // cameraRef.current.lookAt(pos.x, pos.y, pos.z)
     })
     const rendomElement = () => {
         return Math.floor(Math.random() * 2);
@@ -241,8 +257,9 @@ const Scene = () => {
         {carBody.scene && (
             <RigidBody name="car" friction={0} type={dropCar ? "dynamic" : "fixed"} colliders="trimesh" position={[0, 5, 0]} ref={carBodyRef} 
              restitution={0}
-            //  density={50}
-            // //  gravityScale={5}
+             enabledRotations={[true, true, true]}
+             mass={50}
+             gravityScale={5}
             >
                 <pointLight intensity={100} position={[0, 5, -2]} castShadow color={'white'} />
                 {/* <CuboidCollider args={[1,1,1]}/> */}
@@ -259,7 +276,6 @@ const Scene = () => {
             position={[0, 3, 0]}
             // sensor
             canSleep={false}
-            enabledRotations={[false, true, false]}
             density={150}
         >
             <mesh onClick={() => { }}>
@@ -285,11 +301,11 @@ const Scene = () => {
                 type="dynamic"
                 position={[-1.5, 3, 0]}
                 restitution={0}
-                angularDamping={2}
+                angularDamping={2.5}
                 colliders="ball"
                 ref={w1Ref}
-                gravityScale={2}
-                density={50}
+                gravityScale={4}
+                density={80}
                 // linearDamping={3}
                 canSleep={false}
                 friction={12}
@@ -305,13 +321,13 @@ const Scene = () => {
             <RigidBody
                 friction={12}
                 restitution={0}
-                angularDamping={2}
+                angularDamping={2.5}
                 type="dynamic"
-                density={50}
+                density={80}
                 position={[1.5, 3, 0]}
                 colliders="ball"
                 ref={w2Ref}
-                gravityScale={2}
+                gravityScale={4}
                 canSleep={false}
             // linearDamping={3}
             // enabledRotations={[true, true, false]}
@@ -328,13 +344,13 @@ const Scene = () => {
             <RigidBody
                 restitution={0}
                 type="dynamic"
-                angularDamping={2}
+                angularDamping={2.5}
                 position={[-1.5, 3, -3]}
                 colliders="ball"
-                density={50}
+                density={80}
                 canSleep={false}
                 ref={w3Ref}
-                gravityScale={2}
+                gravityScale={4}
                 friction={10}
             // linearDamping={3}
             // enabledRotations={[true, false, false]}
@@ -348,12 +364,12 @@ const Scene = () => {
             <RigidBody
                 type="dynamic"
                 restitution={0}
-                angularDamping={2}
+                angularDamping={2.5}
                 position={[1.5, 3, -3]}
                 colliders="ball"
                 ref={w4Ref}
-                density={50}
-                gravityScale={2}
+                density={80}
+                gravityScale={4}
                 // linearDamping={3}
                 friction={10}
             // enabledRotations={[true, false, false]}
@@ -366,7 +382,11 @@ const Scene = () => {
 
         {rocks?.map((rock) => (rock))}
         {houses?.map((house) => (house))}
-
+        <RigidBody position={[0,2.7,5]} colliders="hull" type="fixed">
+         <group scale={2}>
+           <primitive object={ramp1.scene}/>
+         </group>
+        </RigidBody>
         <RigidBody type="fixed" density={200} friction={0.5}>
             <mesh scale={[50025, 1, 50025]} receiveShadow>
                 <boxGeometry />
