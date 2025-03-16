@@ -135,8 +135,8 @@ const Scene = () => {
 
     useFrame(() => {
         if (!right && !left) {
-            setStoper1Size(0.24);
-            setStoper2Size(0.24);
+            setStoper1Size(0.26);
+            setStoper2Size(0.26);
         } else if (right) {
             setStoper1Size(0.1);
             setStoper2Size(0.29);
@@ -164,13 +164,21 @@ const Scene = () => {
         }
 
         // const rotation = carBodyRef.current.rotation();
-        // const pos = carBodyRef.current.translation();
-        // cameraRef.current.position.lerp({ x: pos.x, y: pos.y + 8, z: rotation.y +30 }, 0.1)
-        // cameraRef.current.lookAt(pos.x, pos.y, pos.z)
+        const pos = carBodyRef.current.translation();
+        cameraRef.current.position.lerp({ x: pos.x, y: pos.y + 8, z: pos.z - 40 }, 0.1)
+        cameraRef.current.lookAt(pos.x, pos.y, pos.z)
     })
     const rendomElement = () => {
         return Math.floor(Math.random() * 2);
     }
+    const range = (max:number,min:number) =>{
+        let num = Math.floor(Math.random() * max)+1;
+        if(num < min){
+            num = range(min,max);
+        }
+        return num;
+    }
+    // console.log(range(400,600));
 
     const addRock = async () => {
         const ele: any[] = [];
@@ -179,15 +187,15 @@ const Scene = () => {
             const nag = Math.floor(Math.random() * 2);
             const clone = await rendomElement() ? Rock.scene.clone() : AutumnPineTree.scene.clone();
             ele.push(
-                <RigidBody density={5000} name="rock" type="kinematicPosition" colliders="hull"
+                <RigidBody name="rock" type="fixed" colliders="cuboid"
                     position={[
-                        rendomElement() ? Math.floor(Math.random() * (-400 - 5 + 1)) + -5 : Math.floor(Math.random() * (400 - 5 + 1)) + 5,
+                        rendomElement() ? -(range(400,5)) : (range(400,5)),
                         1.7,
-                        rendomElement() ? Math.floor(Math.random() * (-400 - 5 + 1)) + -5 : Math.floor(Math.random() * (400 - 5 + 1)) + 5,
+                        rendomElement() ? -(range(400,5)) : ((range(400,5))),
                     ]}
                 >
                     {/* <pointLight intensity={100}  position={[0, 4, -2]} castShadow color={'white'} /> */}
-                    <group scale={2}>
+                    <group scale={2} castShadow>
                         <primitive object={clone} />
                     </group>
                 </RigidBody>
@@ -199,19 +207,20 @@ const Scene = () => {
 
     const aadHouses=()=>{
         const ele:any[]=[];
-        const clone = House.scene.clone();
+        
 
-        for(let i=0 ; i<30 ; i++){
+        for(let i=0 ; i<10 ; i++){
+            const clone = House.scene.clone();
             ele.push(
-                <RigidBody sensor name="House" type="kinematicPosition" colliders="hull" 
+                <RigidBody name="House" type="fixed" colliders="cuboid" 
                 position={[
-                    rendomElement() ? -(Math.floor(Math.random() * (450 - 5 + 1)) + 405) : Math.floor(Math.random() * (450 - 5 + 1)) + 405,
-                    1.7,
-                    rendomElement() ? -(Math.floor(Math.random() * (450 - 5 + 1)) + 405) : Math.floor(Math.random() * (450 - 5 + 1)) + 405,
+                    rendomElement() ? -(range(600,400))  : (range(600,400)) ,
+                    1.0,
+                    rendomElement() ? -(range(600,400))  : (range(600,400)) ,
                 ]}
                 >
                 {/* <CuboidCollider args={[1,1,1]}/> */}
-                <group scale={15}>
+                <group scale={15} castShadow>
                     <primitive object={clone}/>
                 </group>
             </RigidBody>
@@ -227,13 +236,13 @@ const Scene = () => {
         <pointLight intensity={80} position={[0, 5, -2]} castShadow color={'red'} />
         {/* <pointLight intensity={120} position={[0, 5, 2]} castShadow color={'#0aaef5'} /> */}
         {/* <pointLight intensity={5020} position={[0, 20, 2]} castShadow color={'#0aaef5'} /> */}
+        <PerspectiveCamera ref={cameraRef} makeDefault position={[0, 5, -15]} rotation={[0, 0, 0]} />
 
-        <RigidBody>
-            <PerspectiveCamera ref={cameraRef} makeDefault position={[0, 5, -15]} rotation={[0, 2, 0]} />
-        </RigidBody>
         {carBody.scene && (
-            <RigidBody angularDamping={100} name="car" friction={0} type={dropCar ? "dynamic" : "fixed"} colliders="trimesh" position={[0, 5, 0]} ref={carBodyRef} gravityScale={2}
-
+            <RigidBody name="car" friction={0} type={dropCar ? "dynamic" : "fixed"} colliders="trimesh" position={[0, 5, 0]} ref={carBodyRef} 
+             restitution={0}
+            //  density={50}
+            // //  gravityScale={5}
             >
                 <pointLight intensity={100} position={[0, 5, -2]} castShadow color={'white'} />
                 {/* <CuboidCollider args={[1,1,1]}/> */}
@@ -246,12 +255,12 @@ const Scene = () => {
         {/*wheel rod */}
         <RigidBody
             ref={rod1Ref}
-            angularDamping={10}
+            angularDamping={5}
             position={[0, 3, 0]}
             // sensor
             canSleep={false}
             enabledRotations={[false, true, false]}
-            density={9000}
+            density={150}
         >
             <mesh onClick={() => { }}>
                 <boxGeometry args={[0.9, 0.1, 0.5]} />
@@ -275,12 +284,13 @@ const Scene = () => {
             <RigidBody
                 type="dynamic"
                 position={[-1.5, 3, 0]}
+                restitution={0}
+                angularDamping={2}
                 colliders="ball"
-                density={50}
                 ref={w1Ref}
                 gravityScale={2}
+                density={50}
                 // linearDamping={3}
-                // angularDamping={5}
                 canSleep={false}
                 friction={12}
             // sensor
@@ -294,15 +304,16 @@ const Scene = () => {
         {wheel2 && (
             <RigidBody
                 friction={12}
-                density={50}
+                restitution={0}
+                angularDamping={2}
                 type="dynamic"
+                density={50}
                 position={[1.5, 3, 0]}
                 colliders="ball"
                 ref={w2Ref}
                 gravityScale={2}
                 canSleep={false}
             // linearDamping={3}
-            // angularDamping={5}
             // enabledRotations={[true, true, false]}
             // sensor
             >
@@ -315,16 +326,17 @@ const Scene = () => {
 
         {wheel3 && (
             <RigidBody
-                density={50}
+                restitution={0}
                 type="dynamic"
+                angularDamping={2}
                 position={[-1.5, 3, -3]}
                 colliders="ball"
+                density={50}
                 canSleep={false}
                 ref={w3Ref}
                 gravityScale={2}
                 friction={10}
             // linearDamping={3}
-            // angularDamping={5}
             // enabledRotations={[true, false, false]}
             >
                 <group scale={0.2 / 15}>
@@ -335,14 +347,14 @@ const Scene = () => {
         {wheel4 && (
             <RigidBody
                 type="dynamic"
+                restitution={0}
+                angularDamping={2}
                 position={[1.5, 3, -3]}
                 colliders="ball"
                 ref={w4Ref}
-                canSleep={false}
+                density={50}
                 gravityScale={2}
                 // linearDamping={3}
-                // angularDamping={5}
-                density={50}
                 friction={10}
             // enabledRotations={[true, false, false]}
             >
