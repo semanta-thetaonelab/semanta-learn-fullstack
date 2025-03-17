@@ -139,10 +139,10 @@ const Scene = () => {
             setStoper2Size(0.26);
         } else if (right) {
             setStoper1Size(0.1);
-            setStoper2Size(0.29);
+            setStoper2Size(0.30);
         } else if (left) {
             setStoper2Size(0.1);
-            setStoper1Size(0.29);
+            setStoper1Size(0.30);
         }
 
         if (forward) {
