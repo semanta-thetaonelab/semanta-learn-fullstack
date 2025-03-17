@@ -148,7 +148,7 @@ const Scene = () => {
         if (forward) {
             const localDirection = new THREE.Vector3();
             const rotation = carBodyRef.current.rotation();
-            localDirection.set(0, 0, 50.5); // Forward direction in local space
+            localDirection.set(0, 0, 30.5); // Forward direction in local space
             localDirection.applyQuaternion(rotation); // Apply the object's rotation to move in local space
             carBodyRef.current.applyImpulse(localDirection);
 
@@ -157,7 +157,7 @@ const Scene = () => {
         } else if (backward) {
             const localDirection = new THREE.Vector3();
             const rotation = carBodyRef.current.rotation();
-            localDirection.set(0, 0, -50.5); // Forward direction in local space
+            localDirection.set(0, 0, -30.5); // Forward direction in local space
             localDirection.applyQuaternion(rotation); // Apply the object's rotation to move in local space
             carBodyRef.current.applyImpulse(localDirection);
 
@@ -261,7 +261,7 @@ const Scene = () => {
              mass={50}
              gravityScale={5}
             >
-                <pointLight intensity={100} position={[0, 5, -2]} castShadow color={'white'} />
+                <pointLight intensity={100} position={[0, 8, -2]} castShadow color={'white'} />
                 {/* <CuboidCollider args={[1,1,1]}/> */}
                 <group>
                     <primitive object={carBody.scene} />
