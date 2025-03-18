@@ -228,7 +228,7 @@ const Scene = () => {
         for(let i=0 ; i<10 ; i++){
             const clone = House.scene.clone();
             ele.push(
-                <RigidBody name="House" type="fixed" colliders="cuboid" 
+                <RigidBody name="House" type="fixed" colliders="hull" 
                 position={[
                     rendomElement() ? -(range(600,400))  : (range(600,400)) ,
                     1.0,
@@ -258,8 +258,8 @@ const Scene = () => {
             <RigidBody name="car" friction={0} type={dropCar ? "dynamic" : "fixed"} colliders="trimesh" position={[0, 5, 0]} ref={carBodyRef} 
              restitution={0}
              enabledRotations={[true, true, true]}
-             mass={50}
-             gravityScale={5}
+            //  mass={50}
+            //  gravityScale={5}
             >
                 <pointLight intensity={100} position={[0, 8, -2]} castShadow color={'white'} />
                 {/* <CuboidCollider args={[1,1,1]}/> */}
@@ -286,13 +286,17 @@ const Scene = () => {
 
         {/* stpoer 1 */}
 
-        <RigidBody position={[0, 2, 5]} type="dynamic" ref={stoper1Ref} density={100}>
+        <RigidBody position={[0, 2, 5]} type="dynamic" ref={stoper1Ref} 
+         density={80}
+         >
             <CuboidCollider args={[0.1, 0.2, stoper1Size]} />
         </RigidBody>
 
         {/* stpoer 2 */}
 
-        <RigidBody position={[0, 2, 0]} type="dynamic" ref={stoper2Ref} density={100}>
+        <RigidBody position={[0, 2, 0]} type="dynamic" ref={stoper2Ref}
+         density={80}
+         >
             <CuboidCollider args={[0.1, 0.2, stoper2Size]} />
         </RigidBody>
 
@@ -304,10 +308,10 @@ const Scene = () => {
                 angularDamping={2.5}
                 colliders="ball"
                 ref={w1Ref}
-                gravityScale={4}
+                gravityScale={3}
                 density={80}
                 // linearDamping={3}
-                canSleep={false}
+                // canSleep={false}
                 friction={12}
             // sensor
             >
@@ -327,8 +331,8 @@ const Scene = () => {
                 position={[1.5, 3, 0]}
                 colliders="ball"
                 ref={w2Ref}
-                gravityScale={4}
-                canSleep={false}
+                gravityScale={3}
+                // canSleep={false}
             // linearDamping={3}
             // enabledRotations={[true, true, false]}
             // sensor
@@ -348,9 +352,9 @@ const Scene = () => {
                 position={[-1.5, 3, -3]}
                 colliders="ball"
                 density={80}
-                canSleep={false}
+                // canSleep={false}
                 ref={w3Ref}
-                gravityScale={4}
+                gravityScale={3}
                 friction={10}
             // linearDamping={3}
             // enabledRotations={[true, false, false]}
@@ -369,7 +373,7 @@ const Scene = () => {
                 colliders="ball"
                 ref={w4Ref}
                 density={80}
-                gravityScale={4}
+                gravityScale={3}
                 // linearDamping={3}
                 friction={10}
             // enabledRotations={[true, false, false]}
