@@ -62,7 +62,7 @@ const Scene = () => {
         rod1Ref,
         w1Ref,
         [
-            [-1.1, 0, 0], // Rotate point from parant 
+            [-1.1, -0.1, 0], // Rotate point from parant 
             [0, 0, 0], // Position of chid
             [1, 0, 0], // Rotation axis (Y-axis)
         ]
@@ -72,7 +72,7 @@ const Scene = () => {
         rod1Ref,
         w2Ref,
         [
-            [1.1, 0, 0], // Rotate point from parant 
+            [1.1, -0.1, 0], // Rotate point from parant 
             [0, 0, 0], // Position of chid
             [1, 0, 0], // Rotation axis (Y-axis)
         ]
@@ -82,7 +82,7 @@ const Scene = () => {
         carBodyRef,
         w3Ref,
         [
-            [-1.1, -1.3, -3.33], // Rotate point from parant 
+            [-1.1, -1.4, -3.33], // Rotate point from parant 
             [0.1, 0, 0], // Position of chid
             [1, 0, 0], // Rotation axis (Y-axis)
         ]
@@ -92,7 +92,7 @@ const Scene = () => {
         carBodyRef,
         w4Ref,
         [
-            [1.1, -1.3, -3.33], // Rotate point from parant 
+            [1.1, -1.4, -3.33], // Rotate point from parant 
             [-0.1, 0, 0], // Position of chid
             [1, 0, 0], // Rotation axis (Y-axis)
         ]
@@ -135,8 +135,8 @@ const Scene = () => {
 
     useFrame(() => {
         if (!right && !left) {
-            setStoper1Size(0.26);
-            setStoper2Size(0.26);
+            setStoper1Size(0.25);
+            setStoper2Size(0.25);
         } else if (right) {
             setStoper1Size(0.1);
             setStoper2Size(0.30);
@@ -148,7 +148,7 @@ const Scene = () => {
         if (forward) {
             const localDirection = new THREE.Vector3();
             const rotation = carBodyRef.current.rotation();
-            localDirection.set(0, 0, 30.5); // Forward direction in local space
+            localDirection.set(0, 0, 50.5); // Forward direction in local space
             localDirection.applyQuaternion(rotation); // Apply the object's rotation to move in local space
             carBodyRef.current.applyImpulse(localDirection);
 
@@ -157,7 +157,7 @@ const Scene = () => {
         } else if (backward) {
             const localDirection = new THREE.Vector3();
             const rotation = carBodyRef.current.rotation();
-            localDirection.set(0, 0, -30.5); // Forward direction in local space
+            localDirection.set(0, 0, -50.5); // Forward direction in local space
             localDirection.applyQuaternion(rotation); // Apply the object's rotation to move in local space
             carBodyRef.current.applyImpulse(localDirection);
 
@@ -255,7 +255,7 @@ const Scene = () => {
         <PerspectiveCamera ref={cameraRef} makeDefault position={[0, 5, -15]} rotation={[0, 0, 0]} />
 
         {carBody.scene && (
-            <RigidBody name="car" friction={0} type={dropCar ? "dynamic" : "fixed"} colliders="trimesh" position={[0, 5, 0]} ref={carBodyRef} 
+            <RigidBody name="car" friction={0} type={dropCar ? "dynamic" : "fixed"} colliders="hull" position={[0, 5, 0]} ref={carBodyRef} 
              restitution={0}
              enabledRotations={[true, true, true]}
             //  mass={50}
@@ -276,7 +276,7 @@ const Scene = () => {
             position={[0, 3, 0]}
             // sensor
             canSleep={false}
-            density={150}
+            density={350}
         >
             <mesh onClick={() => { }}>
                 <boxGeometry args={[0.9, 0.1, 0.5]} />
@@ -305,7 +305,7 @@ const Scene = () => {
                 type="dynamic"
                 position={[-1.5, 3, 0]}
                 restitution={0}
-                angularDamping={2.5}
+                angularDamping={2}
                 colliders="ball"
                 ref={w1Ref}
                 gravityScale={3}
@@ -325,7 +325,7 @@ const Scene = () => {
             <RigidBody
                 friction={12}
                 restitution={0}
-                angularDamping={2.5}
+                angularDamping={2}
                 type="dynamic"
                 density={80}
                 position={[1.5, 3, 0]}
@@ -348,7 +348,7 @@ const Scene = () => {
             <RigidBody
                 restitution={0}
                 type="dynamic"
-                angularDamping={2.5}
+                angularDamping={2}
                 position={[-1.5, 3, -3]}
                 colliders="ball"
                 density={80}
@@ -368,7 +368,7 @@ const Scene = () => {
             <RigidBody
                 type="dynamic"
                 restitution={0}
-                angularDamping={2.5}
+                angularDamping={2}
                 position={[1.5, 3, -3]}
                 colliders="ball"
                 ref={w4Ref}

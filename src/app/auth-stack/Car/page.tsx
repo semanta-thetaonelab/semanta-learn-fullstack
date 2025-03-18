@@ -20,7 +20,7 @@ const Drei = () => {
                 ]}
             >
                 <Canvas className="bg-black" shadows>
-                    <Physics>
+                    <Physics >
                     <Scene/>
                     </Physics>
                 </Canvas>
