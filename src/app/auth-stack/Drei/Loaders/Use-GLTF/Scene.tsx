@@ -7,6 +7,16 @@ const Scene = () => {
     const animationNames=['Idle','Walk','Run']
     const [mode,setMode]=useState('Idle');
     const modal = useGLTF('/modals/character.glb');
+    //Apply color to the meterial
+    if(modal.materials.head_material){
+        (modal.materials.head_material as THREE.MeshStandardMaterial).color.set("red");
+        console.log(modal)
+    }    
+    // Apply texture to the material
+    //   if (materials?.body_MAT && materials.body_MAT instanceof THREE.MeshStandardMaterial) {
+    //     materials.body_MAT.map = texture;
+    //     materials.body_MAT.needsUpdate = true; // Ensure it updates
+    //   }
     const animations=useAnimations(modal.animations,modal.scene);
     let idx=0;
     useEffect(()=>{
