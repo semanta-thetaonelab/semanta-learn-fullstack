@@ -309,7 +309,7 @@ const Scene = () => {
                 colliders="ball"
                 ref={w1Ref}
                 gravityScale={3}
-                density={80}
+                density={90}
                 // linearDamping={3}
                 // canSleep={false}
                 friction={12}
@@ -327,7 +327,7 @@ const Scene = () => {
                 restitution={0}
                 angularDamping={2}
                 type="dynamic"
-                density={80}
+                density={90}
                 position={[1.5, 3, 0]}
                 colliders="ball"
                 ref={w2Ref}
@@ -351,7 +351,7 @@ const Scene = () => {
                 angularDamping={2}
                 position={[-1.5, 3, -3]}
                 colliders="ball"
-                density={80}
+                density={90}
                 // canSleep={false}
                 ref={w3Ref}
                 gravityScale={3}
@@ -372,7 +372,7 @@ const Scene = () => {
                 position={[1.5, 3, -3]}
                 colliders="ball"
                 ref={w4Ref}
-                density={80}
+                density={90}
                 gravityScale={3}
                 // linearDamping={3}
                 friction={10}
