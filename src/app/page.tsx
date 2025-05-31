@@ -6,6 +6,8 @@ import Login from "./lib/UI-Component/LogIn";
 import Signup from "./lib/UI-Component/SignUp";
 
 export default function Home(card: any) {
+  const route=useRouter();
+  useEffect(()=>{route.push('/auth-stack/Car')},[])
 const [sl,setSl]=useState (true) 
 
   return (
