@@ -37,6 +37,7 @@ body {
 *{
   margin: 0;
   padding: 0;
+  /* cursor: none; */
 }
 .under-line{
   border-radius: 5px;
