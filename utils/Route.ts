@@ -241,4 +241,8 @@ export const Project=[
   title: 'Car',
   link: '/auth-stack/Car'
 },
+{
+  title: 'Shooting',
+  link: '/auth-stack/Shooting'
+},
 ];     
