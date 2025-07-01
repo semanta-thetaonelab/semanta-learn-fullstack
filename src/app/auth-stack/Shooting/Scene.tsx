@@ -26,17 +26,6 @@ const Scene = () => {
     const left = useKeyboardControls((state) => state.left);
     const right = useKeyboardControls((state) => state.right);
 
-    const controlMoves=()=>{
-        if(forward && backward){
-            return new Vector3(0, touchGround ? 0 : -0.2, forward ? -0.5 : backward ? 0.5 : 0);
-        }
-        if((!touchGround && !pushUP) ){
-            return new Vector3(0, touchGround ? 0 : -0.2, forward ? -0.5 : backward ? 0.5 : 0);
-        }
-        if(pushUP && (forward || backward)){
-            return new Vector3(0, touchGround ? 0 : 0.3, forward ? -0.5 : backward ? 0.5 : 0);
-        }
-    }
 
     useFrame((state, delta) => {
         //forward and backward movement
@@ -45,7 +34,7 @@ const Scene = () => {
             const position = rigidBody.translation();
             const rotation = rigidBody.rotation(); // Quaternion
             // const localDirection = new Vector3(0, touchGround ? 0 : -0.2, forward ? -0.5 : backward ? 0.5 : 0);
-            const localDirection = new Vector3(0, touchGround ? 0 : -0.2, forward ? -0.5 : backward ? 0.5 : 0);
+            const localDirection = new Vector3(0, !touchGround && !pushUP?-0.2:(pushUP && (forward || backward))?1.5:0, forward ? -0.5 : backward ? 0.5 : 0);
             localDirection.applyQuaternion(rotation);
             const newPosition = new Vector3(position.x, position.y, position.z).add(
                 localDirection.multiplyScalar(0.2)
@@ -79,11 +68,11 @@ const Scene = () => {
             type="dynamic"
             ref={footSensor}
             sensor
-            onIntersectionEnter={() => { setTouchGround(true) }}
-            onIntersectionExit={() => { setTouchGround(false) }}
+            onCollisionEnter={() => { setTouchGround(true) }}
+            onCollisionExit={() => { setTouchGround(false) }}
             canSleep={false}
         >
-            <CuboidCollider args={[0.2, 0.1 / 3, 0.2]} />
+            <CuboidCollider args={[0.2, 0.1 / 9, 0.2]} />
         </RigidBody>
 
         {/* push up sensor */}
@@ -94,6 +83,7 @@ const Scene = () => {
              canSleep={false}
              onIntersectionEnter={() => { setPushUp(true) }}
              onIntersectionExit={() => { setPushUp(false) }}
+             density={500}
         >
             <CuboidCollider args={[0.1, 0.2, 0.1]} />
         </RigidBody>
@@ -110,7 +100,7 @@ const Scene = () => {
         </RigidBody>
 
         {(joint) && <FixedJoint parent={playerBodyRef} child={footSensor} pp={{ x: 0, y: 0, z: 0 }} cp={{ x: 0, y: -1.1, z: 0 }} />}
-        {(joint) && <FixedJoint parent={playerBodyRef} child={upWardSensor} pp={{ x: 0, y: 0, z: 0 }} cp={{ x: 0, y: -0.8, z: -0.7 }} />}
+        {(joint) && <FixedJoint parent={playerBodyRef} child={upWardSensor} pp={{ x: 0, y: 0, z: 0 }} cp={{ x: 0, y: -0.6, z: -0.7 }} />}
         {(joint) && <FixedJoint parent={playerBodyRef} child={frontSensor} pp={{ x: 0, y: 0, z: 0 }} cp={{ x: 0, y: 0, z: -0.9 }} />}
 
         {/* floor */}
