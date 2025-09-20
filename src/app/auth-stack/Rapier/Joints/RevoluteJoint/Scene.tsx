@@ -20,16 +20,20 @@ const Scene = () => {
   const doorRef:any = useRef(null);
   const wallRef = useRef(null);
   const ball =useRef<any>(null);
+  const [pos,setPos]=useState(5)
   const joint:any = useRevoluteJoint(
     wallRef,
     doorRef,
     [
-      [5, 1.5, 0], // Rotate point from parant 
+      [pos, 1.5, 0], // Rotate point from parant 
       [0,0,0], // Position of chid
       [1, 0, 0], // Rotation axis (Y-axis)
-    ]
+    ],
   );
-  console.log(joint?.current || '')
+  useEffect(()=>{
+    setInterval(()=>{setPos(10)},200)
+  },[])
+  // console.log(joint?.current || '')
 
     return (<>
         <OrbitControls />

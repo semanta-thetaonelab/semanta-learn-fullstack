@@ -194,7 +194,7 @@ const Scene = () => {
 
         // const rotation = carBodyRef.current.rotation();
         // const pos = carBodyRef.current.translation();
-        // cameraRef.current.position.lerp({ x: pos.x, y: pos.y + 8, z: pos.z - 40 }, 0.1)
+        // cameraRef.current.position.lerp({ x: pos.x, y: pos.y + 8, z: pos.z - 40 }, 0)
         // cameraRef.current.lookAt(pos.x, pos.y, pos.z)
     })
     const rendomElement = () => {
