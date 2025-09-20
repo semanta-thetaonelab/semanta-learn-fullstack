@@ -12,9 +12,9 @@ export default function App() {
       <pointLight position={[10, 10, 10]} />
 
       {/* ScrollControls provides scroll.offset for useScroll */}
-      <ScrollControls pages={2}>
+      
         <CurveFollower />
-      </ScrollControls>
+      
     </Canvas>
   )
 }

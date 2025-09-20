@@ -40,7 +40,7 @@ const CurveFollower = () => {
 
   useFrame((state, delta) => {
     if(play){
-      tRef.current += delta * (0.1/3)
+      tRef.current += delta * (0.1)
     tRef.current %= 1
 
     const position = curve.getPointAt(tRef.current)
