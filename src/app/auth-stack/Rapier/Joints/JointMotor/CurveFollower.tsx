@@ -2,27 +2,30 @@
 import * as THREE from "three"
 import { useFrame } from "@react-three/fiber"
 import React, { useRef, useMemo, useState, useEffect } from "react"
-import { OrbitControls } from "@react-three/drei"
+import { OrbitControls, PerspectiveCamera } from "@react-three/drei"
 
 const CurveFollower = () => {
   const meshRef = useRef<THREE.Mesh>(null!)
   const [play,setPlay]=useState(true);
+  const cameraRef = useRef<any>();
   const [curves,setCurves]=useState<any>([
     new THREE.Vector3(0, 0, 0),
     new THREE.Vector3(-20, 0, 0),
     new THREE.Vector3(-20, 0, -20),
   ])
+
   useEffect(()=>{
       setTimeout(()=>{
         setPlay(!play)
       },3000)
   },[play]);
+
    useEffect(()=>{
     setTimeout(()=>{
       setCurves((prev:any)=>{
          return[...prev,new THREE.Vector3(0, 0, -20),]
       })
-    },20000)
+    },10000)
    },[])
 
    useEffect
@@ -35,7 +38,7 @@ const CurveFollower = () => {
 
   const tRef = useRef(0)
 
-  const points = useMemo(() => curve.getPoints(50), [curve])
+  const points = useMemo(() => curve.getPoints(250), [curve])
   const geometry:any = useMemo(() => new THREE.BufferGeometry().setFromPoints(points), [points])
 
   useFrame((state, delta) => {
@@ -56,8 +59,19 @@ const CurveFollower = () => {
     }
   })
 
+  useFrame(()=>{
+    if(meshRef?.current){
+      cameraRef.current.lookAt(meshRef?.current?.position)
+    }
+  })
+
   return (
     <>
+    <PerspectiveCamera
+            ref={cameraRef}
+            makeDefault
+            position={[-10, 10, -10]}
+        />
       <mesh ref={meshRef}>
         <boxGeometry args={[1, 1, 1]} />
         <meshStandardMaterial color="orange" />

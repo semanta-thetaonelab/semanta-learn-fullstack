@@ -1,7 +1,7 @@
 "use client"
 
 import { Canvas } from "@react-three/fiber"
-import { ScrollControls } from "@react-three/drei"
+import { PerspectiveCamera, ScrollControls } from "@react-three/drei"
 import CurveFollower from "./CurveFollower"
 
 
@@ -12,7 +12,6 @@ export default function App() {
       <pointLight position={[10, 10, 10]} />
 
       {/* ScrollControls provides scroll.offset for useScroll */}
-      
         <CurveFollower />
       
     </Canvas>
