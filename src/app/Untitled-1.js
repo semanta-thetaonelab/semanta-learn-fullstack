@@ -107,3 +107,32 @@ const res = await fetch(next_max_id?`https://www.instagram.com/api/v1/friendship
         }
 }
 fetchFollowers();
+
+fetch("https://www.instagram.com/api/v1/friendships/destroy/57900224605/", {
+  "headers": {
+    "accept": "application/json",
+    "accept-language": "en-GB,en-US;q=0.9,en;q=0.8,hi;q=0.7",
+    "priority": "u=1, i",
+    "sec-ch-prefers-color-scheme": "dark",
+    "sec-ch-ua": "\"Chromium\";v=\"140\", \"Not=A?Brand\";v=\"24\", \"Google Chrome\";v=\"140\"",
+    "sec-ch-ua-full-version-list": "\"Chromium\";v=\"140.0.7339.214\", \"Not=A?Brand\";v=\"24.0.0.0\", \"Google Chrome\";v=\"140.0.7339.214\"",
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-model": "\"\"",
+    "sec-ch-ua-platform": "\"macOS\"",
+    "sec-ch-ua-platform-version": "\"15.6.1\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin",
+    "x-asbd-id": "129477",
+    "x-csrftoken": "2BPGojXH9F0w6AjV2yI2wK6S35XupZBl",
+    "x-ig-app-id": "936619743392459",
+    "x-ig-www-claim": "hmac.AR3W1hBW7deEtzGw95vx7-RDm_SxZEQJWY44M-YXXp5PNT9u",
+    "x-instagram-ajax": "1028143599",
+    "x-requested-with": "XMLHttpRequest"
+  },
+  "referrer": "https://www.instagram.com/user_name_jaruri_hai_keya/?ext=TF&uuid=d2b1941c-cd16-4244-9ffb-3dc86edbc08d",
+  "body": null,
+  "method": "POST",
+  "mode": "cors",
+  "credentials": "include"
+});

@@ -59,11 +59,11 @@ const CurveFollower = () => {
     }
   })
 
-  useFrame(()=>{
-    if(meshRef?.current){
-      cameraRef.current.lookAt(meshRef?.current?.position)
-    }
-  })
+  // useFrame(()=>{
+  //   if(meshRef?.current){
+  //     cameraRef.current.lookAt(meshRef?.current?.position)
+  //   }
+  // })
 
   return (
     <>
